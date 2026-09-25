@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Halaman — Jaya Cleaning</title>
+
+    <meta
+        name="robots"
+        content="noindex, nofollow"
+    >
+
+    <style>
+        :root {
+            --bg: #f4f5f2;
+            --surface: #fff;
+            --surface-soft: #f8f9f6;
+            --text: #171918;
+            --muted: #747873;
+            --line: #dedfda;
+            --accent: #1f2a24;
+            --accent-hover: #111914;
+            --success: #317452;
+            --danger: #b53d3d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           APP
+        ===================================================== */
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =====================================================
+           SIDEBAR
+        ===================================================== */
+
+        .sidebar {
+            position: fixed;
+            z-index: 50;
+            inset: 0 auto 0 0;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            padding: 22px 16px;
+            border-right: 1px solid var(--line);
+            background: var(--surface);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px 24px;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 750;
+        }
+
+        .brand-name strong {
+            display: block;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .brand-name span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .nav-label {
+            padding: 13px 10px 7px;
+            color: #999d96;
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 0 11px;
+            border-radius: 9px;
+            color: #555b55;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .nav-link:hover {
+            background: var(--surface-soft);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: #edf0eb;
+            color: var(--text);
+        }
+
+        .nav-icon {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
+            display: grid;
+            place-items: center;
+        }
+
+        .nav-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .admin-box {
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--surface-soft);
+        }
+
+        .admin-label {
+            color: #999d96;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-weight: 750;
+        }
+
+        .admin-name {
+            margin-top: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .logout-button {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+            color: #555b55;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .main {
+            width: 100%;
+            min-width: 0;
+            margin-left: 250px;
+        }
+
+        .topbar {
+            position: sticky;
+            z-index: 30;
+            top: 0;
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 0 34px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(244,245,242,.92);
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: relative;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+        }
+
+        .topbar-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .view-site {
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 13px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            color: #555b55;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 42px 34px 70px;
+        }
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(30px,5vw,44px);
+            line-height: 1;
+            letter-spacing: -.05em;
+            font-weight: 650;
+        }
+
+        .description {
+            max-width: 590px;
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+        /* =====================================================
+           NOTICE
+        ===================================================== */
+
+        .notice {
+            display: none;
+            margin-bottom: 18px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .notice.show {
+            display: block;
+        }
+
+        .notice.success {
+            border: 1px solid #cce0d2;
+            background: #f1f8f3;
+            color: var(--success);
+        }
+
+        .notice.error {
+            border: 1px solid #e7cccc;
+            background: #fff7f7;
+            color: var(--danger);
+        }
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .form-section {
+            margin-bottom: 18px;
+            padding: 25px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+        }
+
+        .section-header {
+            margin-bottom: 22px;
+        }
+
+        .section-number {
+            margin-bottom: 6px;
+            color: #999d96;
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 19px;
+            letter-spacing: -.025em;
+        }
+
+        .section-header p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .field-note {
+            margin: -2px 0 7px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            outline: none;
+            background: #fff;
+            color: var(--text);
+            transition:
+                border-color 150ms ease,
+                box-shadow 150ms ease;
+        }
+
+        input {
+            height: 46px;
+            padding: 0 13px;
+        }
+
+        textarea {
+            min-height: 125px;
+            padding: 12px 13px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #798079;
+            box-shadow:
+                0 0 0 3px rgba(31,42,36,.08);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns:
+                repeat(2,minmax(0,1fr));
+            gap: 16px;
+        }
+
+        .actions {
+            position: sticky;
+            z-index: 20;
+            bottom: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 25px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(255,255,255,.94);
+            box-shadow:
+                0 10px 30px rgba(20,25,22,.08);
+            backdrop-filter: blur(10px);
+        }
+
+        .button {
+            min-height: 43px;
+            padding: 0 17px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .button-secondary {
+            border: 1px solid var(--line);
+            background: #fff;
+            color: #555b55;
+        }
+
+        .button-primary {
+            border: 1px solid var(--accent);
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .button-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .button:disabled {
+            cursor: wait;
+            opacity: .6;
+        }
+
+        .loading {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        .overlay {
+            position: fixed;
+            z-index: 40;
+            inset: 0;
+            display: none;
+            background: rgba(15,20,17,.25);
+        }
+
+        @media (max-width:760px) {
+
+            .sidebar {
+                width: 260px;
+                transform: translateX(-100%);
+                transition: transform 220ms ease;
+                box-shadow:
+                    12px 0 35px rgba(20,25,22,.08);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .overlay.open {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                min-height: 62px;
+                padding: 0 17px;
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .mobile-menu span,
+            .mobile-menu::before,
+            .mobile-menu::after {
+                content: "";
+                position: absolute;
+                width: 17px;
+                height: 1.5px;
+                background: currentColor;
+                transition: transform 180ms ease;
+            }
+
+            .mobile-menu span {
+                transform: translateY(0);
+            }
+
+            .mobile-menu::before {
+                transform: translateY(-5px);
+            }
+
+            .mobile-menu::after {
+                transform: translateY(5px);
+            }
+
+            .mobile-menu.open span {
+                opacity: 0;
+            }
+
+            .mobile-menu.open::before {
+                transform: rotate(45deg);
+            }
+
+            .mobile-menu.open::after {
+                transform: rotate(-45deg);
+            }
+
+            .view-site {
+                display: none;
+            }
+
+            .content {
+                padding:
+                    32px 17px 60px;
+            }
+
+            .form-section {
+                padding: 20px;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .actions {
+                bottom: 10px;
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration:.01ms!important;
+                animation-iteration-count:1!important;
+                transition-duration:.01ms!important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                JC
+            </div>
+
+            <div class="brand-name">
+                <strong>Jaya Cleaning</strong>
+                <span>Admin Panel</span>
+            </div>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <div class="nav-label">
+                Utama
+            </div>
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                </span>
+                Dashboard
+            </a>
+
+
+            <a
+                class="nav-link active"
+                href="/dash-admin-panel/page.html"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/>
+                        <path d="M4 5.5v16"/>
+                        <path d="M8 7h8"/>
+                        <path d="M8 11h8"/>
+                    </svg>
+                </span>
+                Halaman
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5h16"/>
+                        <path d="M4 9h16"/>
+                        <path d="M4 15h10"/>
+                        <path d="M4 19h7"/>
+                        <circle cx="18" cy="17" r="3"/>
+                    </svg>
+                </span>
+                Layanan
+            </a>
+
+
+            <div class="nav-label">
+                Konten
+            </div>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#gallery"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="16" rx="2"/>
+                        <circle cx="8" cy="9" r="1.5"/>
+                        <path d="m5 17 4-4 3 3 3-4 4 5"/>
+                    </svg>
+                </span>
+                Galeri
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#process"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="5" cy="6" r="2"/>
+                        <circle cx="5" cy="12" r="2"/>
+                        <circle cx="5" cy="18" r="2"/>
+                        <path d="M10 6h9"/>
+                        <path d="M10 12h9"/>
+                        <path d="M10 18h9"/>
+                    </svg>
+                </span>
+                Cara Kerja
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#faq"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.8 9a2.4 2.4 0 1 1 4.3 1.5c-.9 1-2.1 1.3-2.1 2.7"/>
+                        <path d="M12 16.8h.01"/>
+                    </svg>
+                </span>
+                FAQ
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#testimonials"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 6h14v10H9l-4 4z"/>
+                        <path d="M8 10h8"/>
+                        <path d="M8 13h5"/>
+                    </svg>
+                </span>
+                Testimoni
+            </a>
+
+
+            <div class="nav-label">
+                Sistem
+            </div>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/setting.html"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.5 1.5-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-2.1v-.4a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.5-1.5.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H6v-2.1h.4a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1L9 7.3l.1.1a1.7 1.7 0 0 0 1.9-.3 1.7 1.7 0 0 0 1-1.5V6h2.1v.4a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.5 1.5-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.4v2.1H21a1.7 1.7 0 0 0-1.6.9z"/>
+                    </svg>
+                </span>
+                Pengaturan
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+                <div class="admin-label">
+                    Login sebagai
+                </div>
+
+                <div
+                    class="admin-name"
+                    id="adminName"
+                >
+                    Memuat...
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+                Keluar
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="mobile-menu"
+                id="mobileMenu"
+                aria-label="Buka menu"
+                aria-expanded="false"
+            >
+                <span></span>
+            </button>
+
+            <div class="topbar-title">
+                Edit Halaman
+            </div>
+
+            <a
+                href="/"
+                target="_blank"
+                rel="noopener"
+                class="view-site"
+            >
+                Lihat Website
+            </a>
+
+        </header>
+
+
+        <div class="content">
+
+            <header class="page-header">
+
+                <p class="eyebrow">
+                    Konten halaman
+                </p>
+
+                <h1>
+                    Edit halaman.
+                </h1>
+
+                <p class="description">
+                    Ubah teks utama website tanpa
+                    menyentuh kode. Perubahan akan
+                    tersimpan ke database.
+                </p>
+
+            </header>
+
+
+            <div
+                id="notice"
+                class="notice"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+
+            <form
+                id="contentForm"
+                autocomplete="off"
+            >
+
+                <!-- =================================================
+                     ABOUT
+                ================================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-header">
+
+                        <div class="section-number">
+                            01 · Tentang
+                        </div>
+
+                        <h2>
+                            Tentang Jaya Cleaning
+                        </h2>
+
+                        <p>
+                            Konten bagian pengenalan
+                            bisnis pada halaman utama.
+                        </p>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="about_title">
+                            Judul
+                        </label>
+
+                        <input
+                            id="about_title"
+                            name="about_title"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Judul bagian tentang"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="about_text">
+                            Deskripsi
+                        </label>
+
+                        <textarea
+                            id="about_text"
+                            name="about_text"
+                            maxlength="3000"
+                            placeholder="Tulis penjelasan tentang layanan Jaya Cleaning."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     WHY
+                ================================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-header">
+
+                        <div class="section-number">
+                            02 · Alasan memilih
+                        </div>
+
+                        <h2>
+                            Kenapa memilih Jaya Cleaning?
+                        </h2>
+
+                        <p>
+                            Pengantar untuk bagian alasan
+                            memilih layanan.
+                        </p>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="why_title">
+                            Judul
+                        </label>
+
+                        <input
+                            id="why_title"
+                            name="why_title"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Judul bagian"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="why_text">
+                            Deskripsi
+                        </label>
+
+                        <textarea
+                            id="why_text"
+                            name="why_text"
+                            maxlength="3000"
+                            placeholder="Tulis penjelasan singkat."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     PROCESS
+                ================================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-header">
+
+                        <div class="section-number">
+                            03 · Cara kerja
+                        </div>
+
+                        <h2>
+                            Cara kerja
+                        </h2>
+
+                        <p>
+                            Pengantar sebelum daftar
+                            langkah proses cleaning.
+                        </p>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="process_title">
+                            Judul
+                        </label>
+
+                        <input
+                            id="process_title"
+                            name="process_title"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Judul cara kerja"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="process_text">
+                            Deskripsi
+                        </label>
+
+                        <textarea
+                            id="process_text"
+                            name="process_text"
+                            maxlength="3000"
+                            placeholder="Jelaskan secara singkat alur layanan."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     GALLERY
+                ================================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-header">
+
+                        <div class="section-number">
+                            04 · Galeri
+                        </div>
+
+                        <h2>
+                            Hasil pekerjaan
+                        </h2>
+
+                        <p>
+                            Teks pembuka sebelum foto hasil
+                            pekerjaan ditampilkan.
+                        </p>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="gallery_title">
+                            Judul
+                        </label>
+
+                        <input
+                            id="gallery_title"
+                            name="gallery_title"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Judul galeri"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="gallery_text">
+                            Deskripsi
+                        </label>
+
+                        <textarea
+                            id="gallery_text"
+                            name="gallery_text"
+                            maxlength="3000"
+                            placeholder="Tulis pengantar galeri."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     FAQ
+                ================================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-header">
+
+                        <div class="section-number">
+                            05 · FAQ
+                        </div>
+
+                        <h2>
+                            Pertanyaan yang sering ditanyakan
+                        </h2>
+
+                        <p>
+                            Pengantar sebelum daftar
+                            pertanyaan FAQ.
+                        </p>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="faq_title">
+                            Judul
+                        </label>
+
+                        <input
+                            id="faq_title"
+                            name="faq_title"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Judul FAQ"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="faq_text">
+                            Deskripsi
+                        </label>
+
+                        <textarea
+                            id="faq_text"
+                            name="faq_text"
+                            maxlength="3000"
+                            placeholder="Tulis pengantar FAQ."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     CTA
+                ================================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-header">
+
+                        <div class="section-number">
+                            06 · Call to Action
+                        </div>
+
+                        <h2>
+                            CTA
+                        </h2>
+
+                        <p>
+                            Bagian ajakan yang muncul
+                            menjelang akhir halaman.
+                        </p>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="cta_title">
+                            Judul
+                        </label>
+
+                        <input
+                            id="cta_title"
+                            name="cta_title"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Judul CTA"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="cta_text">
+                            Deskripsi
+                        </label>
+
+                        <textarea
+                            id="cta_text"
+                            name="cta_text"
+                            maxlength="3000"
+                            placeholder="Tulis kalimat ajakan."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="grid-2">
+
+                        <div class="field">
+
+                            <label for="cta_button_text">
+                                Teks tombol
+                            </label>
+
+                            <input
+                                id="cta_button_text"
+                                name="cta_button_text"
+                                type="text"
+                                maxlength="80"
+                                placeholder="Contoh: Konsultasi via WhatsApp"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="cta_button_url">
+                                URL tombol
+                            </label>
+
+                            <input
+                                id="cta_button_url"
+                                name="cta_button_url"
+                                type="text"
+                                maxlength="500"
+                                placeholder="Contoh: https://wa.me/628..."
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     ACTIONS
+                ================================================== -->
+
+                <div class="actions">
+
+                    <button
+                        type="button"
+                        class="button button-secondary"
+                        id="reloadButton"
+                    >
+                        Muat ulang
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="button button-primary"
+                        id="saveButton"
+                    >
+                        Simpan perubahan
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+(() => {
+
+    "use strict";
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ELEMENTS
+    |--------------------------------------------------------------------------
+    */
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+    const overlay =
+        document.getElementById(
+            "overlay"
+        );
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+    const adminName =
+        document.getElementById(
+            "adminName"
+        );
+
+    const form =
+        document.getElementById(
+            "contentForm"
+        );
+
+    const notice =
+        document.getElementById(
+            "notice"
+        );
+
+    const saveButton =
+        document.getElementById(
+            "saveButton"
+        );
+
+    const reloadButton =
+        document.getElementById(
+            "reloadButton"
+        );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FIELDS
+    |--------------------------------------------------------------------------
+    */
+
+    const fields = [
+        "about_title",
+        "about_text",
+        "why_title",
+        "why_text",
+        "process_title",
+        "process_text",
+        "gallery_title",
+        "gallery_text",
+        "faq_title",
+        "faq_text",
+        "cta_title",
+        "cta_text",
+        "cta_button_text",
+        "cta_button_url"
+    ];
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | API HELPER
+    |--------------------------------------------------------------------------
+    */
+
+    async function api(
+        endpoint,
+        options = {}
+    ) {
+
+        const response =
+            await fetch(
+                endpoint,
+                {
+                    credentials:
+                        "same-origin",
+
+                    cache:
+                        "no-store",
+
+                    ...options,
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        ...(options.headers || {})
+                    }
+                }
+            );
+
+
+        let data = null;
+
+        try {
+            data =
+                await response.json();
+        } catch {
+            data = null;
+        }
+
+
+        if (
+            response.status === 401
+        ) {
+            window.location.replace(
+                "/dash-admin-panel/login.html"
+            );
+
+            throw new Error(
+                "Session expired"
+            );
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data?.message ||
+                "Request gagal."
+            );
+        }
+
+
+        return data;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | NOTICE
+    |--------------------------------------------------------------------------
+    */
+
+    let noticeTimer = null;
+
+
+    function showNotice(
+        text,
+        type = "success"
+    ) {
+
+        clearTimeout(
+            noticeTimer
+        );
+
+        notice.textContent =
+            text;
+
+        notice.className =
+            `notice show ${type}`;
+
+
+        noticeTimer =
+            setTimeout(
+                () => {
+                    notice.classList.remove(
+                        "show"
+                    );
+                },
+                5000
+            );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SESSION
+    |--------------------------------------------------------------------------
+    */
+
+    async function loadSession() {
+
+        const result =
+            await api(
+                "/api/auth/me"
+            );
+
+
+        if (
+            !result ||
+            !result.success ||
+            !result.authenticated
+        ) {
+            window.location.replace(
+                "/dash-admin-panel/login.html"
+            );
+
+            return false;
+        }
+
+
+        const admin =
+            result.admin ||
+            result.data ||
+            {};
+
+
+        adminName.textContent =
+            admin.name ||
+            admin.username ||
+            "Administrator";
+
+
+        return true;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD CONTENT
+    |--------------------------------------------------------------------------
+    */
+
+    async function loadContent() {
+
+        reloadButton.disabled =
+            true;
+
+        try {
+
+            const result =
+                await api(
+                    "/api/site/content"
+                );
+
+
+            const data =
+                result.data ||
+                result.content ||
+                {};
+
+
+            fields.forEach(
+                field => {
+
+                    const input =
+                        document.getElementById(
+                            field
+                        );
+
+                    if (!input) {
+                        return;
+                    }
+
+                    input.value =
+                        data[field] ??
+                        "";
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CONTENT LOAD ERROR:",
+                error
+            );
+
+            showNotice(
+                error.message ||
+                "Konten gagal dimuat.",
+                "error"
+            );
+
+        } finally {
+
+            reloadButton.disabled =
+                false;
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SAVE CONTENT
+    |--------------------------------------------------------------------------
+    */
+
+    form.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            saveButton.disabled =
+                true;
+
+            reloadButton.disabled =
+                true;
+
+            saveButton.textContent =
+                "Menyimpan...";
+
+
+            const payload = {};
+
+
+            fields.forEach(
+                field => {
+
+                    const input =
+                        document.getElementById(
+                            field
+                        );
+
+                    if (!input) {
+                        return;
+                    }
+
+                    payload[field] =
+                        input.value.trim();
+                }
+            );
+
+
+            try {
+
+                const result =
+                    await api(
+                        "/api/site/content",
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    payload
+                                )
+                        }
+                    );
+
+
+                showNotice(
+                    result.message ||
+                    "Perubahan berhasil disimpan.",
+                    "success"
+                );
+
+
+                /*
+                 * Ambil ulang dari database
+                 * supaya form menunjukkan data
+                 * yang benar-benar tersimpan.
+                 */
+
+                await loadContent();
+
+            } catch (error) {
+
+                console.error(
+                    "CONTENT SAVE ERROR:",
+                    error
+                );
+
+                showNotice(
+                    error.message ||
+                    "Perubahan gagal disimpan.",
+                    "error"
+                );
+
+            } finally {
+
+                saveButton.disabled =
+                    false;
+
+                reloadButton.disabled =
+                    false;
+
+                saveButton.textContent =
+                    "Simpan perubahan";
+            }
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RELOAD
+    |--------------------------------------------------------------------------
+    */
+
+    reloadButton.addEventListener(
+        "click",
+        async () => {
+
+            await loadContent();
+
+            showNotice(
+                "Konten dimuat ulang dari database.",
+                "success"
+            );
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
+
+    logoutButton.addEventListener(
+        "click",
+        async () => {
+
+            logoutButton.disabled =
+                true;
+
+            logoutButton.textContent =
+                "Keluar...";
+
+
+            try {
+
+                await fetch(
+                    "/api/auth/logout",
+                    {
+                        method: "POST",
+
+                        credentials:
+                            "same-origin",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        },
+
+                        cache:
+                            "no-store"
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "LOGOUT ERROR:",
+                    error
+                );
+
+            } finally {
+
+                window.location.replace(
+                    "/dash-admin-panel/login.html"
+                );
+            }
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOBILE MENU
+    |--------------------------------------------------------------------------
+    */
+
+    function openMenu() {
+
+        sidebar.classList.add(
+            "open"
+        );
+
+        overlay.classList.add(
+            "open"
+        );
+
+        mobileMenu.classList.add(
+            "open"
+        );
+
+        mobileMenu.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove(
+            "open"
+        );
+
+        overlay.classList.remove(
+            "open"
+        );
+
+        mobileMenu.classList.remove(
+            "open"
+        );
+
+        mobileMenu.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+    }
+
+
+    mobileMenu.addEventListener(
+        "click",
+        () => {
+
+            if (
+                sidebar.classList.contains(
+                    "open"
+                )
+            ) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    document
+        .querySelectorAll(
+            ".nav-link"
+        )
+        .forEach(
+            link => {
+
+                link.addEventListener(
+                    "click",
+                    closeMenu
+                );
+
+            }
+        );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INIT
+    |--------------------------------------------------------------------------
+    */
+
+    async function init() {
+
+        try {
+
+            const authenticated =
+                await loadSession();
+
+
+            if (!authenticated) {
+                return;
+            }
+
+
+            await loadContent();
+
+        } catch (error) {
+
+            console.error(
+                "PAGE INIT ERROR:",
+                error
+            );
+
+            showNotice(
+                error.message ||
+                "Halaman gagal dimuat.",
+                "error"
+            );
+        }
+    }
+
+
+    init();
+
+})();
+</script>
+
+</body>
+</html>
