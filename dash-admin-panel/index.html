@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Dashboard — Jaya Cleaning</title>
+
+    <meta
+        name="robots"
+        content="noindex, nofollow"
+    >
+
+    <style>
+        :root {
+            --bg: #f4f5f2;
+            --surface: #ffffff;
+            --surface-soft: #f8f9f6;
+            --text: #171918;
+            --muted: #747873;
+            --line: #dedfda;
+            --accent: #1f2a24;
+            --accent-hover: #111914;
+            --danger: #b53d3d;
+            --success: #317452;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        button,
+        a {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           APP
+        ========================================================= */
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+        ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            z-index: 50;
+            inset: 0 auto 0 0;
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            padding: 22px 16px;
+            border-right: 1px solid var(--line);
+            background: var(--surface);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 4px 8px 24px;
+        }
+
+        .brand-mark {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 11px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 750;
+            letter-spacing: -0.04em;
+        }
+
+        .brand-name {
+            min-width: 0;
+        }
+
+        .brand-name strong {
+            display: block;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .brand-name span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .nav {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .nav-label {
+            padding: 13px 10px 7px;
+            color: #999d96;
+            font-size: 10px;
+            font-weight: 750;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            min-height: 42px;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 0 11px;
+            border-radius: 9px;
+            color: #555b55;
+            font-size: 13px;
+            font-weight: 600;
+            transition:
+                background 150ms ease,
+                color 150ms ease;
+        }
+
+        .nav-link:hover {
+            background: var(--surface-soft);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: #edf0eb;
+            color: var(--text);
+        }
+
+        .nav-icon {
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
+            display: grid;
+            place-items: center;
+            color: currentColor;
+        }
+
+        .nav-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+        }
+
+        .admin-box {
+            margin-bottom: 10px;
+            padding: 12px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: var(--surface-soft);
+        }
+
+        .admin-label {
+            color: #999d96;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 750;
+        }
+
+        .admin-name {
+            margin-top: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .logout-button {
+            width: 100%;
+            min-height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+            color: #555b55;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .logout-button:hover {
+            border-color: #c6c8c2;
+            color: var(--text);
+        }
+
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .main {
+            width: 100%;
+            min-width: 0;
+            margin-left: 250px;
+        }
+
+        .topbar {
+            position: sticky;
+            z-index: 30;
+            top: 0;
+            min-height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 0 34px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(244, 245, 242, 0.92);
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+        }
+
+        .topbar-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .view-site {
+            min-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0 13px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #fff;
+            color: #555b55;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .view-site:hover {
+            color: var(--text);
+            border-color: #c6c8c2;
+        }
+
+        .content {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 42px 34px 60px;
+        }
+
+
+        /* =========================================================
+           PAGE HEADER
+        ========================================================= */
+
+        .page-header {
+            margin-bottom: 34px;
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(30px, 5vw, 46px);
+            line-height: 1;
+            letter-spacing: -0.05em;
+            font-weight: 650;
+        }
+
+        .page-description {
+            max-width: 560px;
+            margin: 12px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.65;
+        }
+
+
+        /* =========================================================
+           STATUS
+        ========================================================= */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-top: 18px;
+            padding: 7px 10px;
+            border-radius: 100px;
+            background: #edf5ef;
+            color: var(--success);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+
+        /* =========================================================
+           STATS
+        ========================================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 38px;
+        }
+
+        .stat-card {
+            min-height: 145px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 19px;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--surface-soft);
+            color: #59605a;
+        }
+
+        .stat-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .stat-number {
+            margin-top: 18px;
+            font-size: 31px;
+            line-height: 1;
+            letter-spacing: -0.045em;
+            font-weight: 650;
+        }
+
+
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
+
+        .section-heading {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 14px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: -0.025em;
+        }
+
+        .section-heading p {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .section-link {
+            color: #5d645e;
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .section-link:hover {
+            color: var(--text);
+        }
+
+
+        /* =========================================================
+           QUICK ACTIONS
+        ========================================================= */
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 38px;
+        }
+
+        .action {
+            min-height: 112px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            background: var(--surface);
+            transition:
+                border-color 150ms ease,
+                transform 150ms ease;
+        }
+
+        .action:hover {
+            border-color: #c8cbc5;
+            transform: translateY(-1px);
+        }
+
+        .action-icon {
+            width: 31px;
+            height: 31px;
+            display: grid;
+            place-items: center;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .action-icon svg {
+            width: 15px;
+            height: 15px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .action-title {
+            margin-top: 14px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .action-description {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+        /* =========================================================
+           RECENT
+        ========================================================= */
+
+        .recent-card {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            background: var(--surface);
+        }
+
+        .recent-list {
+            min-height: 100px;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 15px 18px;
+            border-bottom: 1px solid #ecece8;
+        }
+
+        .recent-item:last-child {
+            border-bottom: 0;
+        }
+
+        .recent-main {
+            min-width: 0;
+        }
+
+        .recent-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .recent-meta {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .recent-badge {
+            flex: 0 0 auto;
+            padding: 5px 8px;
+            border-radius: 6px;
+            background: var(--surface-soft);
+            color: var(--muted);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .empty {
+            padding: 28px 18px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .loading {
+            color: var(--muted);
+        }
+
+
+        /* =========================================================
+           MOBILE OVERLAY
+        ========================================================= */
+
+        .overlay {
+            position: fixed;
+            z-index: 40;
+            inset: 0;
+            display: none;
+            background: rgba(15, 20, 17, 0.25);
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1050px) {
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .quick-actions {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+        }
+
+
+        @media (max-width: 760px) {
+
+            .sidebar {
+                width: 260px;
+                transform: translateX(-100%);
+                transition:
+                    transform 220ms ease;
+                box-shadow:
+                    12px 0 35px rgba(20, 25, 22, 0.08);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .overlay.open {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .topbar {
+                min-height: 62px;
+                padding: 0 17px;
+            }
+
+            .mobile-menu {
+                display: grid;
+                place-items: center;
+            }
+
+            .mobile-menu span,
+            .mobile-menu::before,
+            .mobile-menu::after {
+                content: "";
+                position: absolute;
+                width: 17px;
+                height: 1.5px;
+                background: currentColor;
+                transition:
+                    transform 180ms ease;
+            }
+
+            .mobile-menu {
+                position: relative;
+                color: var(--text);
+            }
+
+            .mobile-menu span {
+                transform: translateY(0);
+            }
+
+            .mobile-menu::before {
+                transform: translateY(-5px);
+            }
+
+            .mobile-menu::after {
+                transform: translateY(5px);
+            }
+
+            .mobile-menu.open span {
+                opacity: 0;
+            }
+
+            .mobile-menu.open::before {
+                transform: rotate(45deg);
+            }
+
+            .mobile-menu.open::after {
+                transform: rotate(-45deg);
+            }
+
+            .topbar-title {
+                margin-right: auto;
+            }
+
+            .view-site {
+                display: none;
+            }
+
+            .content {
+                padding:
+                    32px 17px 48px;
+            }
+
+            .quick-actions {
+                grid-template-columns:
+                    1fr;
+            }
+        }
+
+
+        @media (max-width: 520px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                margin-bottom: 28px;
+            }
+
+            h1 {
+                font-size: 36px;
+            }
+
+            .stat-card {
+                min-height: 125px;
+            }
+        }
+
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================================================
+         SIDEBAR
+    ========================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+        <div class="brand">
+
+            <div
+                class="brand-mark"
+                aria-hidden="true"
+            >
+                JC
+            </div>
+
+            <div class="brand-name">
+                <strong>Jaya Cleaning</strong>
+                <span>Admin Panel</span>
+            </div>
+
+        </div>
+
+
+        <nav class="nav">
+
+            <div class="nav-label">
+                Utama
+            </div>
+
+            <a
+                class="nav-link active"
+                href="/dash-admin-panel/"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect
+                            x="3"
+                            y="3"
+                            width="7"
+                            height="7"
+                            rx="1"
+                        />
+                        <rect
+                            x="14"
+                            y="3"
+                            width="7"
+                            height="7"
+                            rx="1"
+                        />
+                        <rect
+                            x="3"
+                            y="14"
+                            width="7"
+                            height="7"
+                            rx="1"
+                        />
+                        <rect
+                            x="14"
+                            y="14"
+                            width="7"
+                            height="7"
+                            rx="1"
+                        />
+                    </svg>
+                </span>
+
+                Dashboard
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/page.html"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z" />
+                        <path d="M4 5.5v16" />
+                        <path d="M8 7h8" />
+                        <path d="M8 11h8" />
+                    </svg>
+                </span>
+
+                Halaman
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5h16" />
+                        <path d="M4 9h16" />
+                        <path d="M4 15h10" />
+                        <path d="M4 19h7" />
+                        <circle
+                            cx="18"
+                            cy="17"
+                            r="3"
+                        />
+                    </svg>
+                </span>
+
+                Layanan
+            </a>
+
+
+            <div class="nav-label">
+                Konten
+            </div>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#gallery"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect
+                            x="3"
+                            y="4"
+                            width="18"
+                            height="16"
+                            rx="2"
+                        />
+                        <circle
+                            cx="8"
+                            cy="9"
+                            r="1.5"
+                        />
+                        <path d="m5 17 4-4 3 3 3-4 4 5" />
+                    </svg>
+                </span>
+
+                Galeri
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#process"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle
+                            cx="5"
+                            cy="6"
+                            r="2"
+                        />
+                        <circle
+                            cx="5"
+                            cy="12"
+                            r="2"
+                        />
+                        <circle
+                            cx="5"
+                            cy="18"
+                            r="2"
+                        />
+                        <path d="M10 6h9" />
+                        <path d="M10 12h9" />
+                        <path d="M10 18h9" />
+                    </svg>
+                </span>
+
+                Cara Kerja
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#faq"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="9"
+                        />
+                        <path d="M9.8 9a2.4 2.4 0 1 1 4.3 1.5c-.9 1-2.1 1.3-2.1 2.7" />
+                        <path d="M12 16.8h.01" />
+                    </svg>
+                </span>
+
+                FAQ
+            </a>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/cms.html#testimonials"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 6h14v10H9l-4 4z" />
+                        <path d="M8 10h8" />
+                        <path d="M8 13h5" />
+                    </svg>
+                </span>
+
+                Testimoni
+            </a>
+
+
+            <div class="nav-label">
+                Sistem
+            </div>
+
+
+            <a
+                class="nav-link"
+                href="/dash-admin-panel/setting.html"
+            >
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="3"
+                        />
+                        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.5 1.5-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-2.1v-.4a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.5-1.5.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H6v-2.1h.4a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1L9 7.3l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V6h2.1v.4a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.5 1.5-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.4v2.1H21a1.7 1.7 0 0 0-1.6.9z" />
+                    </svg>
+                </span>
+
+                Pengaturan
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+                <div class="admin-label">
+                    Login sebagai
+                </div>
+
+                <div
+                    class="admin-name"
+                    id="adminName"
+                >
+                    Memuat...
+                </div>
+            </div>
+
+            <button
+                type="button"
+                class="logout-button"
+                id="logoutButton"
+            >
+                Keluar
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="mobile-menu"
+                id="mobileMenu"
+                aria-label="Buka menu"
+                aria-expanded="false"
+            >
+                <span></span>
+            </button>
+
+            <div class="topbar-title">
+                Dashboard
+            </div>
+
+            <div class="topbar-right">
+
+                <a
+                    href="/"
+                    target="_blank"
+                    rel="noopener"
+                    class="view-site"
+                >
+                    Lihat Website
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <section class="page-header">
+
+                <p class="eyebrow">
+                    Overview
+                </p>
+
+                <h1>
+                    Selamat datang.
+                </h1>
+
+                <p class="page-description">
+                    Kelola isi website Jaya Cleaning
+                    dari satu tempat.
+                </p>
+
+                <div class="status">
+                    <span class="status-dot"></span>
+                    Sistem aktif
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 STATS
+            ================================================== -->
+
+            <section
+                class="stats"
+                aria-label="Ringkasan website"
+            >
+
+                <article class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Layanan aktif
+                        </span>
+
+                        <span class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 5h16" />
+                                <path d="M4 9h16" />
+                                <path d="M4 15h10" />
+                                <path d="M4 19h7" />
+                            </svg>
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="serviceCount"
+                    >
+                        —
+                    </div>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Foto galeri
+                        </span>
+
+                        <span class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <rect
+                                    x="3"
+                                    y="4"
+                                    width="18"
+                                    height="16"
+                                    rx="2"
+                                />
+                                <circle
+                                    cx="8"
+                                    cy="9"
+                                    r="1.5"
+                                />
+                                <path d="m5 17 4-4 3 3 3-4 4 5" />
+                            </svg>
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="galleryCount"
+                    >
+                        —
+                    </div>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            FAQ aktif
+                        </span>
+
+                        <span class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="9"
+                                />
+                                <path d="M9.8 9a2.4 2.4 0 1 1 4.3 1.5c-.9 1-2.1 1.3-2.1 2.7" />
+                                <path d="M12 16.8h.01" />
+                            </svg>
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="faqCount"
+                    >
+                        —
+                    </div>
+
+                </article>
+
+
+                <article class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-label">
+                            Pesan masuk
+                        </span>
+
+                        <span class="stat-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 5h16v13H8l-4 3z" />
+                                <path d="M8 9h8" />
+                                <path d="M8 12h5" />
+                            </svg>
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="stat-number"
+                        id="contactCount"
+                    >
+                        —
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <section>
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>
+                            Aksi cepat
+                        </h2>
+
+                        <p>
+                            Bagian website yang sering dikelola.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <a
+                        href="/dash-admin-panel/cms.html"
+                        class="action"
+                    >
+
+                        <span class="action-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 5h16" />
+                                <path d="M4 9h16" />
+                                <path d="M4 15h10" />
+                                <path d="M4 19h7" />
+                            </svg>
+                        </span>
+
+                        <div>
+                            <div class="action-title">
+                                Kelola Layanan
+                            </div>
+
+                            <div class="action-description">
+                                Tambah, edit, atur harga dan foto.
+                            </div>
+                        </div>
+
+                    </a>
+
+
+                    <a
+                        href="/dash-admin-panel/page.html"
+                        class="action"
+                    >
+
+                        <span class="action-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z" />
+                                <path d="M4 5.5v16" />
+                                <path d="M8 7h8" />
+                                <path d="M8 11h8" />
+                            </svg>
+                        </span>
+
+                        <div>
+                            <div class="action-title">
+                                Edit Halaman
+                            </div>
+
+                            <div class="action-description">
+                                Hero, tentang, CTA dan konten utama.
+                            </div>
+                        </div>
+
+                    </a>
+
+
+                    <a
+                        href="/dash-admin-panel/setting.html"
+                        class="action"
+                    >
+
+                        <span class="action-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="3"
+                                />
+                                <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.5 1.5-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-2.1v-.4a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.5-1.5.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H6v-2.1h.4a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1L9 7.3l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5V6h2.1v.4a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.5 1.5-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.4v2.1H21a1.7 1.7 0 0 0-1.6.9z" />
+                            </svg>
+                        </span>
+
+                        <div>
+                            <div class="action-title">
+                                Pengaturan Website
+                            </div>
+
+                            <div class="action-description">
+                                Kontak, SEO, branding dan sosial media.
+                            </div>
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 RECENT SERVICES
+            ================================================== -->
+
+            <section>
+
+                <div class="section-heading">
+
+                    <div>
+                        <h2>
+                            Layanan
+                        </h2>
+
+                        <p>
+                            Layanan aktif yang tampil di website.
+                        </p>
+                    </div>
+
+                    <a
+                        href="/dash-admin-panel/cms.html"
+                        class="section-link"
+                    >
+                        Kelola layanan →
+                    </a>
+
+                </div>
+
+
+                <div class="recent-card">
+
+                    <div
+                        class="recent-list"
+                        id="serviceList"
+                    >
+                        <div class="empty loading">
+                            Memuat layanan...
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script>
+(() => {
+
+    "use strict";
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ELEMENTS
+    |--------------------------------------------------------------------------
+    */
+
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+    const overlay =
+        document.getElementById(
+            "overlay"
+        );
+
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
+
+    const logoutButton =
+        document.getElementById(
+            "logoutButton"
+        );
+
+    const adminName =
+        document.getElementById(
+            "adminName"
+        );
+
+    const serviceCount =
+        document.getElementById(
+            "serviceCount"
+        );
+
+    const galleryCount =
+        document.getElementById(
+            "galleryCount"
+        );
+
+    const faqCount =
+        document.getElementById(
+            "faqCount"
+        );
+
+    const contactCount =
+        document.getElementById(
+            "contactCount"
+        );
+
+    const serviceList =
+        document.getElementById(
+            "serviceList"
+        );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | API HELPER
+    |--------------------------------------------------------------------------
+    */
+
+    async function api(
+        endpoint,
+        options = {}
+    ) {
+
+        const response =
+            await fetch(
+                endpoint,
+                {
+                    credentials:
+                        "same-origin",
+
+                    cache:
+                        "no-store",
+
+                    ...options,
+
+                    headers: {
+                        "Accept":
+                            "application/json",
+
+                        ...(options.headers || {})
+                    }
+                }
+            );
+
+
+        let data = null;
+
+        try {
+            data =
+                await response.json();
+        } catch {
+            data = null;
+        }
+
+
+        if (
+            response.status === 401
+        ) {
+            window.location.replace(
+                "/dash-admin-panel/login.html"
+            );
+
+            throw new Error(
+                "Session expired"
+            );
+        }
+
+
+        if (
+            !response.ok
+        ) {
+            throw new Error(
+                data?.message ||
+                "Request gagal."
+            );
+        }
+
+
+        return data;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SESSION
+    |--------------------------------------------------------------------------
+    */
+
+    async function loadSession() {
+
+        try {
+
+            const result =
+                await api(
+                    "/api/auth/me"
+                );
+
+
+            if (
+                !result ||
+                !result.success ||
+                !result.authenticated
+            ) {
+                window.location.replace(
+                    "/dash-admin-panel/login.html"
+                );
+
+                return false;
+            }
+
+
+            const admin =
+                result.admin ||
+                result.data ||
+                {};
+
+
+            adminName.textContent =
+                admin.name ||
+                admin.username ||
+                "Administrator";
+
+
+            return true;
+
+        } catch (error) {
+
+            console.error(
+                "SESSION ERROR:",
+                error
+            );
+
+            /*
+             * Jika memang bukan session
+             * yang bermasalah, tetap arahkan
+             * ke login agar dashboard tidak
+             * terbuka tanpa autentikasi.
+             */
+
+            if (
+                error.message !==
+                "Session expired"
+            ) {
+                window.location.replace(
+                    "/dash-admin-panel/login.html"
+                );
+            }
+
+            return false;
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD SERVICES
+    |--------------------------------------------------------------------------
+    */
+
+    async function loadServices() {
+
+        try {
+
+            const result =
+                await api(
+                    "/api/services"
+                );
+
+
+            const services =
+                Array.isArray(result.data)
+                    ? result.data
+                    : [];
+
+
+            serviceCount.textContent =
+                services.length;
+
+
+            renderServices(
+                services
+            );
+
+        } catch (error) {
+
+            console.error(
+                "SERVICE ERROR:",
+                error
+            );
+
+            serviceCount.textContent =
+                "—";
+
+            serviceList.innerHTML = `
+                <div class="empty">
+                    Layanan belum dapat dimuat.
+                </div>
+            `;
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD GALLERY
+    |--------------------------------------------------------------------------
+    */
+
+    async function loadGallery() {
+
+        try {
+
+            const result =
+                await api(
+                    "/api/gallery"
+                );
+
+
+            const items =
+                Array.isArray(result.data)
+                    ? result.data
+                    : [];
+
+
+            galleryCount.textContent =
+                items.length;
+
+        } catch (error) {
+
+            console.error(
+                "GALLERY ERROR:",
+                error
+            );
+
+            galleryCount.textContent =
+                "—";
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD FAQ
+    |--------------------------------------------------------------------------
+    */
+
+    async function loadFaq() {
+
+        try {
+
+            const result =
+                await api(
+                    "/api/faq"
+                );
+
+
+            const items =
+                Array.isArray(result.data)
+                    ? result.data
+                    : [];
+
+
+            faqCount.textContent =
+                items.length;
+
+        } catch (error) {
+
+            console.error(
+                "FAQ ERROR:",
+                error
+            );
+
+            faqCount.textContent =
+                "—";
+        }
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOAD CONTACT
+    |--------------------------------------------------------------------------
+    |
+    | contact_submissions belum memiliki
+    | endpoint API sendiri.
+    |
+    | Karena itu dashboard tidak membuat
+    | request palsu. Untuk sementara
+    | ditampilkan sebagai "—".
+    |
+    |--------------------------------------------------------------------------
+    */
+
+    function loadContacts() {
+
+        contactCount.textContent =
+            "—";
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RENDER SERVICES
+    |--------------------------------------------------------------------------
+    */
+
+    function renderServices(
+        services
+    ) {
+
+        if (
+            services.length === 0
+        ) {
+
+            serviceList.innerHTML = `
+                <div class="empty">
+                    Belum ada layanan aktif.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        const visible =
+            services.slice(
+                0,
+                6
+            );
+
+
+        serviceList.innerHTML =
+            visible
+                .map(service => {
+
+                    const price =
+                        formatPrice(
+                            service.price
+                        );
+
+
+                    const priceText =
+                        service.price_label ||
+                        price ||
+                        "Harga belum diatur";
+
+
+                    return `
+                        <a
+                            class="recent-item"
+                            href="/dash-admin-panel/cms.html?service=${encodeURIComponent(service.id)}"
+                        >
+
+                            <div class="recent-main">
+
+                                <div class="recent-title">
+                                    ${escapeHtml(
+                                        service.name ||
+                                        "Tanpa nama"
+                                    )}
+                                </div>
+
+                                <div class="recent-meta">
+                                    ${escapeHtml(
+                                        service.short_description ||
+                                        service.description ||
+                                        "Belum ada deskripsi."
+                                    )}
+                                </div>
+
+                            </div>
+
+                            <div class="recent-badge">
+                                ${escapeHtml(
+                                    priceText
+                                )}
+                            </div>
+
+                        </a>
+                    `;
+                })
+                .join("");
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FORMAT PRICE
+    |--------------------------------------------------------------------------
+    */
+
+    function formatPrice(
+        value
+    ) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+            return "";
+        }
+
+
+        const number =
+            Number(value);
+
+
+        if (
+            !Number.isFinite(number)
+        ) {
+            return "";
+        }
+
+
+        return (
+            "Rp " +
+            new Intl.NumberFormat(
+                "id-ID"
+            ).format(number)
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ESCAPE HTML
+    |--------------------------------------------------------------------------
+    */
+
+    function escapeHtml(
+        value
+    ) {
+
+        return String(
+            value ?? ""
+        )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOBILE MENU
+    |--------------------------------------------------------------------------
+    */
+
+    function openMenu() {
+
+        sidebar.classList.add(
+            "open"
+        );
+
+        overlay.classList.add(
+            "open"
+        );
+
+        mobileMenu.classList.add(
+            "open"
+        );
+
+        mobileMenu.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+    }
+
+
+    function closeMenu() {
+
+        sidebar.classList.remove(
+            "open"
+        );
+
+        overlay.classList.remove(
+            "open"
+        );
+
+        mobileMenu.classList.remove(
+            "open"
+        );
+
+        mobileMenu.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+    }
+
+
+    mobileMenu.addEventListener(
+        "click",
+        () => {
+
+            if (
+                sidebar.classList.contains(
+                    "open"
+                )
+            ) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        closeMenu
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLOSE MENU AFTER NAVIGATION
+    |--------------------------------------------------------------------------
+    */
+
+    document
+        .querySelectorAll(
+            ".nav-link"
+        )
+        .forEach(link => {
+
+            link.addEventListener(
+                "click",
+                closeMenu
+            );
+
+        });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
+
+    logoutButton.addEventListener(
+        "click",
+        async () => {
+
+            logoutButton.disabled =
+                true;
+
+            logoutButton.textContent =
+                "Keluar...";
+
+
+            try {
+
+                await fetch(
+                    "/api/auth/logout",
+                    {
+                        method: "POST",
+
+                        credentials:
+                            "same-origin",
+
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        },
+
+                        cache:
+                            "no-store"
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "LOGOUT ERROR:",
+                    error
+                );
+
+            } finally {
+
+                window.location.replace(
+                    "/dash-admin-panel/login.html"
+                );
+            }
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INITIALIZE
+    |--------------------------------------------------------------------------
+    */
+
+    async function init() {
+
+        const authenticated =
+            await loadSession();
+
+
+        if (!authenticated) {
+            return;
+        }
+
+
+        /*
+         * Jalankan setelah session valid.
+         */
+
+        await Promise.all([
+            loadServices(),
+            loadGallery(),
+            loadFaq()
+        ]);
+
+
+        loadContacts();
+    }
+
+
+    init();
+
+})();
+</script>
+
+</body>
+</html>
