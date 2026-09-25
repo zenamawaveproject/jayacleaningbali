@@ -1,0 +1,4075 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS Layanan — Jaya Cleaning</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        :root {
+            --bg:#f4f5f2;
+            --surface:#fff;
+            --soft:#f8f9f6;
+            --text:#171918;
+            --muted:#747873;
+            --line:#dedfda;
+            --accent:#1f2a24;
+            --danger:#b53d3d;
+            --success:#317452;
+        }
+
+        * { box-sizing:border-box; }
+
+        html,body {
+            margin:0;
+            min-height:100%;
+        }
+
+        body {
+            background:var(--bg);
+            color:var(--text);
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        button,input,textarea,select { font:inherit; }
+
+        button,a {
+            -webkit-tap-highlight-color:transparent;
+        }
+
+        button { cursor:pointer; }
+
+        a {
+            color:inherit;
+            text-decoration:none;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position:fixed;
+            z-index:60;
+            inset:0 auto 0 0;
+            width:250px;
+            display:flex;
+            flex-direction:column;
+            padding:22px 16px;
+            background:var(--surface);
+            border-right:1px solid var(--line);
+        }
+
+        .brand {
+            display:flex;
+            align-items:center;
+            gap:12px;
+            padding:4px 8px 24px;
+        }
+
+        .brand-mark {
+            width:40px;
+            height:40px;
+            display:grid;
+            place-items:center;
+            flex:0 0 40px;
+            border-radius:11px;
+            background:var(--accent);
+            color:#fff;
+            font-size:14px;
+            font-weight:750;
+        }
+
+        .brand-name strong {
+            display:block;
+            font-size:14px;
+        }
+
+        .brand-name span {
+            display:block;
+            margin-top:3px;
+            color:var(--muted);
+            font-size:11px;
+        }
+
+        .nav {
+            display:flex;
+            flex-direction:column;
+            gap:3px;
+        }
+
+        .nav-label {
+            padding:13px 10px 7px;
+            color:#999d96;
+            font-size:10px;
+            font-weight:750;
+            letter-spacing:.1em;
+            text-transform:uppercase;
+        }
+
+        .nav-link {
+            min-height:42px;
+            display:flex;
+            align-items:center;
+            gap:11px;
+            padding:0 11px;
+            border-radius:9px;
+            color:#555b55;
+            font-size:13px;
+            font-weight:600;
+        }
+
+        .nav-link:hover {
+            background:var(--soft);
+        }
+
+        .nav-link.active {
+            background:#edf0eb;
+            color:var(--text);
+        }
+
+        .nav-icon {
+            width:17px;
+            height:17px;
+            display:grid;
+            place-items:center;
+            flex:0 0 17px;
+        }
+
+        .nav-icon svg {
+            width:16px;
+            height:16px;
+            fill:none;
+            stroke:currentColor;
+            stroke-width:1.7;
+            stroke-linecap:round;
+            stroke-linejoin:round;
+        }
+
+        .sidebar-bottom {
+            margin-top:auto;
+        }
+
+        .admin-box {
+            margin-bottom:10px;
+            padding:12px;
+            border:1px solid var(--line);
+            border-radius:10px;
+            background:var(--soft);
+        }
+
+        .admin-label {
+            color:#999d96;
+            font-size:10px;
+            font-weight:750;
+            letter-spacing:.08em;
+            text-transform:uppercase;
+        }
+
+        .admin-name {
+            margin-top:5px;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+            font-size:13px;
+            font-weight:650;
+        }
+
+        .logout-button {
+            width:100%;
+            min-height:40px;
+            border:1px solid var(--line);
+            border-radius:9px;
+            background:#fff;
+            color:#555b55;
+            font-size:12px;
+            font-weight:650;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main {
+            min-width:0;
+            margin-left:250px;
+        }
+
+        .topbar {
+            position:sticky;
+            z-index:30;
+            top:0;
+            min-height:68px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:0 34px;
+            border-bottom:1px solid var(--line);
+            background:rgba(244,245,242,.92);
+            backdrop-filter:blur(10px);
+        }
+
+        .topbar-title {
+            font-size:14px;
+            font-weight:700;
+        }
+
+        .view-site {
+            min-height:38px;
+            display:inline-flex;
+            align-items:center;
+            padding:0 13px;
+            border:1px solid var(--line);
+            border-radius:8px;
+            background:#fff;
+            color:#555b55;
+            font-size:12px;
+            font-weight:650;
+        }
+
+        .mobile-menu {
+            display:none;
+            position:relative;
+            width:40px;
+            height:40px;
+            border:1px solid var(--line);
+            border-radius:9px;
+            background:#fff;
+        }
+
+        .mobile-menu span,
+        .mobile-menu::before,
+        .mobile-menu::after {
+            content:"";
+            position:absolute;
+            width:17px;
+            height:1.5px;
+            background:currentColor;
+            transition:transform .18s ease;
+        }
+
+        .mobile-menu span { transform:translateY(0); }
+        .mobile-menu::before { transform:translateY(-5px); }
+        .mobile-menu::after { transform:translateY(5px); }
+
+        .mobile-menu.open span { opacity:0; }
+        .mobile-menu.open::before { transform:rotate(45deg); }
+        .mobile-menu.open::after { transform:rotate(-45deg); }
+
+        .content {
+            width:100%;
+            max-width:1240px;
+            margin:auto;
+            padding:38px 34px 80px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .page-head {
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-between;
+            gap:25px;
+            margin-bottom:28px;
+        }
+
+        .eyebrow {
+            margin:0 0 8px;
+            color:var(--muted);
+            font-size:11px;
+            font-weight:750;
+            letter-spacing:.12em;
+            text-transform:uppercase;
+        }
+
+        h1 {
+            margin:0;
+            font-size:clamp(30px,5vw,46px);
+            line-height:1;
+            letter-spacing:-.05em;
+            font-weight:650;
+        }
+
+        .description {
+            max-width:650px;
+            margin:12px 0 0;
+            color:var(--muted);
+            font-size:14px;
+            line-height:1.65;
+        }
+
+        .add-button {
+            min-height:44px;
+            padding:0 17px;
+            border:1px solid var(--accent);
+            border-radius:8px;
+            background:var(--accent);
+            color:#fff;
+            font-size:12px;
+            font-weight:700;
+            white-space:nowrap;
+        }
+
+        /* =========================
+           NOTICE
+        ========================= */
+
+        .notice {
+            display:none;
+            margin-bottom:18px;
+            padding:12px 14px;
+            border-radius:9px;
+            font-size:13px;
+        }
+
+        .notice.show { display:block; }
+
+        .notice.success {
+            background:#f1f8f3;
+            border:1px solid #cce0d2;
+            color:var(--success);
+        }
+
+        .notice.error {
+            background:#fff7f7;
+            border:1px solid #e7cccc;
+            color:var(--danger);
+        }
+
+        /* =========================
+           TOOLBAR
+        ========================= */
+
+        .toolbar {
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-bottom:14px;
+        }
+
+        .search {
+            width:100%;
+            max-width:380px;
+            height:42px;
+            padding:0 13px;
+            border:1px solid var(--line);
+            border-radius:8px;
+            background:#fff;
+            outline:none;
+        }
+
+        .search:focus {
+            border-color:#798079;
+            box-shadow:0 0 0 3px rgba(31,42,36,.08);
+        }
+
+        .count {
+            margin-left:auto;
+            color:var(--muted);
+            font-size:12px;
+        }
+
+        /* =========================
+           SERVICE LIST
+        ========================= */
+
+        .service-list {
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+        }
+
+        .service-row {
+            display:grid;
+            grid-template-columns:82px minmax(0,1fr) auto;
+            gap:18px;
+            align-items:center;
+            padding:13px;
+            border:1px solid var(--line);
+            border-radius:12px;
+            background:#fff;
+        }
+
+        .service-thumb {
+            width:82px;
+            height:68px;
+            overflow:hidden;
+            border-radius:8px;
+            background:#e9ebe7;
+        }
+
+        .service-thumb img {
+            width:100%;
+            height:100%;
+            display:block;
+            object-fit:cover;
+        }
+
+        .thumb-empty {
+            width:100%;
+            height:100%;
+            display:grid;
+            place-items:center;
+            color:#9a9e98;
+            font-size:10px;
+            text-align:center;
+        }
+
+        .service-main {
+            min-width:0;
+        }
+
+        .service-title {
+            display:flex;
+            align-items:center;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+
+        .service-title strong {
+            font-size:15px;
+        }
+
+        .status {
+            display:inline-flex;
+            align-items:center;
+            min-height:22px;
+            padding:0 7px;
+            border-radius:5px;
+            font-size:9px;
+            font-weight:750;
+            letter-spacing:.03em;
+        }
+
+        .status.active {
+            background:#edf6ef;
+            color:#317452;
+        }
+
+        .status.inactive {
+            background:#f1f1ef;
+            color:#777b76;
+        }
+
+        .status.featured {
+            background:#f4f0e6;
+            color:#7c6834;
+        }
+
+        .service-description {
+            max-width:650px;
+            margin-top:5px;
+            overflow:hidden;
+            color:var(--muted);
+            font-size:12px;
+            line-height:1.45;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+
+        .service-meta {
+            display:flex;
+            gap:14px;
+            margin-top:7px;
+            color:#858983;
+            font-size:11px;
+        }
+
+        .service-actions {
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
+
+        .small-button {
+            min-height:34px;
+            padding:0 10px;
+            border:1px solid var(--line);
+            border-radius:7px;
+            background:#fff;
+            color:#555b55;
+            font-size:11px;
+            font-weight:650;
+        }
+
+        .small-button:hover {
+            background:var(--soft);
+        }
+
+        .small-button.danger {
+            color:var(--danger);
+        }
+
+        .empty-state {
+            padding:55px 20px;
+            border:1px dashed var(--line);
+            border-radius:12px;
+            background:#fff;
+            text-align:center;
+        }
+
+        .empty-state strong {
+            display:block;
+            font-size:15px;
+        }
+
+        .empty-state p {
+            margin:7px auto 0;
+            max-width:400px;
+            color:var(--muted);
+            font-size:12px;
+            line-height:1.6;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-layer {
+            position:fixed;
+            z-index:100;
+            inset:0;
+            display:none;
+            align-items:flex-start;
+            justify-content:center;
+            padding:30px;
+            overflow:auto;
+            background:rgba(16,20,18,.38);
+        }
+
+        .modal-layer.open {
+            display:flex;
+        }
+
+        .modal {
+            width:100%;
+            max-width:1080px;
+            margin:auto;
+            border:1px solid var(--line);
+            border-radius:15px;
+            background:#fff;
+            box-shadow:0 25px 70px rgba(0,0,0,.16);
+        }
+
+        .modal-head {
+            position:sticky;
+            z-index:3;
+            top:0;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:20px;
+            min-height:66px;
+            padding:0 22px;
+            border-bottom:1px solid var(--line);
+            background:rgba(255,255,255,.96);
+            backdrop-filter:blur(10px);
+        }
+
+        .modal-head h2 {
+            margin:0;
+            font-size:17px;
+        }
+
+        .close-button {
+            width:36px;
+            height:36px;
+            border:1px solid var(--line);
+            border-radius:8px;
+            background:#fff;
+            font-size:20px;
+            line-height:1;
+        }
+
+        .modal-body {
+            display:grid;
+            grid-template-columns:minmax(0,1fr) 340px;
+            gap:0;
+        }
+
+        .editor {
+            min-width:0;
+            padding:25px;
+            border-right:1px solid var(--line);
+        }
+
+        .preview {
+            position:sticky;
+            top:66px;
+            align-self:start;
+            padding:25px;
+        }
+
+        .section {
+            margin-bottom:24px;
+            padding-bottom:24px;
+            border-bottom:1px solid var(--line);
+        }
+
+        .section:last-child {
+            margin-bottom:0;
+            padding-bottom:0;
+            border-bottom:0;
+        }
+
+        .section h3 {
+            margin:0 0 4px;
+            font-size:14px;
+        }
+
+        .section > p {
+            margin:0 0 16px;
+            color:var(--muted);
+            font-size:11px;
+            line-height:1.5;
+        }
+
+        .field {
+            margin-bottom:15px;
+        }
+
+        .field:last-child {
+            margin-bottom:0;
+        }
+
+        label {
+            display:block;
+            margin-bottom:6px;
+            font-size:11px;
+            font-weight:700;
+        }
+
+        input,
+        textarea,
+        select {
+            width:100%;
+            border:1px solid var(--line);
+            border-radius:8px;
+            outline:none;
+            background:#fff;
+            color:var(--text);
+        }
+
+        input,
+        select {
+            height:43px;
+            padding:0 11px;
+        }
+
+        textarea {
+            min-height:105px;
+            padding:11px;
+            resize:vertical;
+            line-height:1.55;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color:#798079;
+            box-shadow:0 0 0 3px rgba(31,42,36,.08);
+        }
+
+        .grid-2 {
+            display:grid;
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:12px;
+        }
+
+        .grid-3 {
+            display:grid;
+            grid-template-columns:repeat(3,minmax(0,1fr));
+            gap:12px;
+        }
+
+        /* =========================
+           IMAGE
+        ========================= */
+
+        .image-upload {
+            display:grid;
+            grid-template-columns:150px minmax(0,1fr);
+            gap:14px;
+            align-items:start;
+        }
+
+        .image-preview {
+            width:150px;
+            height:120px;
+            overflow:hidden;
+            border-radius:9px;
+            background:#e9ebe7;
+        }
+
+        .image-preview img {
+            width:100%;
+            height:100%;
+            display:block;
+            object-fit:cover;
+        }
+
+        .image-placeholder {
+            width:100%;
+            height:100%;
+            display:grid;
+            place-items:center;
+            padding:15px;
+            color:#888d87;
+            font-size:11px;
+            line-height:1.4;
+            text-align:center;
+        }
+
+        .upload-controls {
+            min-width:0;
+        }
+
+        .file-input {
+            width:100%;
+            height:auto;
+            padding:9px;
+            font-size:11px;
+        }
+
+        .upload-note {
+            margin-top:7px;
+            color:var(--muted);
+            font-size:10px;
+            line-height:1.5;
+        }
+
+        .upload-status {
+            margin-top:8px;
+            font-size:11px;
+        }
+
+        .upload-status.success {
+            color:var(--success);
+        }
+
+        .upload-status.error {
+            color:var(--danger);
+        }
+
+        /* =========================
+           SWITCH
+        ========================= */
+
+        .toggle-grid {
+            display:grid;
+            grid-template-columns:repeat(3,minmax(0,1fr));
+            gap:8px;
+        }
+
+        .toggle {
+            position:relative;
+        }
+
+        .toggle input {
+            position:absolute;
+            opacity:0;
+            pointer-events:none;
+        }
+
+        .toggle-label {
+            min-height:54px;
+            display:flex;
+            align-items:center;
+            padding:0 11px;
+            border:1px solid var(--line);
+            border-radius:8px;
+            background:#fff;
+            color:#656a65;
+            font-size:11px;
+            font-weight:650;
+            cursor:pointer;
+        }
+
+        .toggle input:checked + .toggle-label {
+            border-color:#b9c5bc;
+            background:#f0f4f0;
+            color:var(--accent);
+        }
+
+        /* =========================
+           PRICES
+        ========================= */
+
+        .price-list {
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+        }
+
+        .price-row {
+            display:grid;
+            grid-template-columns:minmax(0,1fr) 125px 110px 36px;
+            gap:7px;
+            align-items:center;
+        }
+
+        .price-row input {
+            min-width:0;
+        }
+
+        .remove-price {
+            width:36px;
+            height:36px;
+            border:1px solid #ead2d2;
+            border-radius:7px;
+            background:#fff7f7;
+            color:var(--danger);
+            font-size:16px;
+        }
+
+        .add-price {
+            margin-top:9px;
+            min-height:35px;
+            padding:0 11px;
+            border:1px dashed #c9ccc6;
+            border-radius:7px;
+            background:#fff;
+            color:#555b55;
+            font-size:11px;
+            font-weight:650;
+        }
+
+        /* =========================
+           PREVIEW
+        ========================= */
+
+        .preview-label {
+            margin-bottom:11px;
+            color:#999d96;
+            font-size:10px;
+            font-weight:750;
+            letter-spacing:.1em;
+            text-transform:uppercase;
+        }
+
+        .preview-card {
+            overflow:hidden;
+            border:1px solid var(--line);
+            border-radius:12px;
+            background:#fff;
+        }
+
+        .preview-image {
+            width:100%;
+            aspect-ratio:4/3;
+            overflow:hidden;
+            background:#e9ebe7;
+        }
+
+        .preview-image img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .preview-copy {
+            padding:17px;
+        }
+
+        .preview-badge {
+            display:inline-flex;
+            min-height:22px;
+            align-items:center;
+            padding:0 7px;
+            border-radius:5px;
+            background:#eef1ed;
+            color:#586159;
+            font-size:9px;
+            font-weight:700;
+        }
+
+        .preview-title {
+            margin:11px 0 6px;
+            font-size:21px;
+            line-height:1.08;
+            letter-spacing:-.035em;
+        }
+
+        .preview-description {
+            color:var(--muted);
+            font-size:11px;
+            line-height:1.55;
+        }
+
+        .preview-price {
+            margin-top:15px;
+            padding-top:13px;
+            border-top:1px solid var(--line);
+            font-size:14px;
+            font-weight:750;
+        }
+
+        .preview-unit {
+            color:var(--muted);
+            font-size:10px;
+            font-weight:500;
+        }
+
+        .preview-info {
+            display:flex;
+            flex-wrap:wrap;
+            gap:6px;
+            margin-top:10px;
+        }
+
+        .preview-info span {
+            padding:5px 7px;
+            border:1px solid var(--line);
+            border-radius:5px;
+            color:#666b65;
+            font-size:9px;
+        }
+
+        .modal-footer {
+            display:flex;
+            justify-content:flex-end;
+            gap:9px;
+            padding:15px 22px;
+            border-top:1px solid var(--line);
+        }
+
+        .button {
+            min-height:42px;
+            padding:0 16px;
+            border-radius:8px;
+            font-size:12px;
+            font-weight:700;
+        }
+
+        .button-secondary {
+            border:1px solid var(--line);
+            background:#fff;
+            color:#555b55;
+        }
+
+        .button-primary {
+            border:1px solid var(--accent);
+            background:var(--accent);
+            color:#fff;
+        }
+
+        .button-danger {
+            border:1px solid #ead2d2;
+            background:#fff7f7;
+            color:var(--danger);
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        .overlay {
+            position:fixed;
+            z-index:50;
+            inset:0;
+            display:none;
+            background:rgba(15,20,17,.25);
+        }
+
+        .overlay.open {
+            display:block;
+        }
+
+        @media(max-width:900px) {
+
+            .modal-body {
+                grid-template-columns:1fr;
+            }
+
+            .editor {
+                border-right:0;
+            }
+
+            .preview {
+                position:relative;
+                top:auto;
+                padding-top:0;
+            }
+        }
+
+        @media(max-width:760px) {
+
+            .sidebar {
+                width:260px;
+                transform:translateX(-100%);
+                transition:transform .22s ease;
+                box-shadow:12px 0 35px rgba(20,25,22,.08);
+            }
+
+            .sidebar.open {
+                transform:translateX(0);
+            }
+
+            .main {
+                margin-left:0;
+            }
+
+            .topbar {
+                min-height:62px;
+                padding:0 17px;
+            }
+
+            .mobile-menu {
+                display:grid;
+                place-items:center;
+            }
+
+            .view-site {
+                display:none;
+            }
+
+            .content {
+                padding:30px 17px 60px;
+            }
+
+            .page-head {
+                align-items:flex-start;
+                flex-direction:column;
+            }
+
+            .add-button {
+                width:100%;
+            }
+
+            .toolbar {
+                flex-wrap:wrap;
+            }
+
+            .search {
+                max-width:none;
+            }
+
+            .count {
+                width:100%;
+                margin-left:0;
+            }
+
+            .service-row {
+                grid-template-columns:62px minmax(0,1fr);
+                gap:12px;
+            }
+
+            .service-thumb {
+                width:62px;
+                height:62px;
+            }
+
+            .service-actions {
+                grid-column:1/-1;
+                padding-top:4px;
+                border-top:1px solid var(--line);
+            }
+
+            .service-actions .small-button {
+                flex:1;
+            }
+
+            .modal-layer {
+                padding:0;
+            }
+
+            .modal {
+                min-height:100vh;
+                border:0;
+                border-radius:0;
+            }
+
+            .modal-head {
+                min-height:60px;
+            }
+
+            .editor,
+            .preview {
+                padding:20px;
+            }
+
+            .grid-2,
+            .grid-3,
+            .toggle-grid {
+                grid-template-columns:1fr;
+            }
+
+            .image-upload {
+                grid-template-columns:1fr;
+            }
+
+            .image-preview {
+                width:100%;
+                height:190px;
+            }
+
+            .price-row {
+                grid-template-columns:1fr 1fr;
+            }
+
+            .price-row input:first-child {
+                grid-column:1/-1;
+            }
+
+            .price-row .remove-price {
+                justify-self:end;
+            }
+
+            .modal-footer {
+                position:sticky;
+                bottom:0;
+                z-index:5;
+                background:rgba(255,255,255,.96);
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            *,
+            *::before,
+            *::after {
+                transition-duration:.01ms!important;
+                animation-duration:.01ms!important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">JC</div>
+
+            <div class="brand-name">
+                <strong>Jaya Cleaning</strong>
+                <span>Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="nav">
+
+            <div class="nav-label">Utama</div>
+
+            <a class="nav-link" href="/dash-admin-panel/">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                </span>
+                Dashboard
+            </a>
+
+            <a class="nav-link" href="/dash-admin-panel/page.html">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/>
+                        <path d="M4 5.5v16"/>
+                        <path d="M8 7h8"/>
+                        <path d="M8 11h8"/>
+                    </svg>
+                </span>
+                Halaman
+            </a>
+
+            <a class="nav-link active" href="/dash-admin-panel/cms.html">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M4 5h16"/>
+                        <path d="M4 9h16"/>
+                        <path d="M4 15h10"/>
+                        <path d="M4 19h7"/>
+                        <circle cx="18" cy="17" r="3"/>
+                    </svg>
+                </span>
+                Layanan
+            </a>
+
+            <div class="nav-label">Konten</div>
+
+            <a class="nav-link" href="#gallery">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="4" width="18" height="16" rx="2"/>
+                        <circle cx="8" cy="9" r="1.5"/>
+                        <path d="m5 17 4-4 3 3 3-4 4 5"/>
+                    </svg>
+                </span>
+                Galeri
+            </a>
+
+            <a class="nav-link" href="#process">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="5" cy="6" r="2"/>
+                        <circle cx="5" cy="12" r="2"/>
+                        <circle cx="5" cy="18" r="2"/>
+                        <path d="M10 6h9"/>
+                        <path d="M10 12h9"/>
+                        <path d="M10 18h9"/>
+                    </svg>
+                </span>
+                Cara Kerja
+            </a>
+
+            <a class="nav-link" href="#faq">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="M9.8 9a2.4 2.4 0 1 1 4.3 1.5c-.9 1-2.1 1.3-2.1 2.7"/>
+                        <path d="M12 16.8h.01"/>
+                    </svg>
+                </span>
+                FAQ
+            </a>
+
+            <a class="nav-link" href="#testimonials">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M5 6h14v10H9l-4 4z"/>
+                        <path d="M8 10h8"/>
+                        <path d="M8 13h5"/>
+                    </svg>
+                </span>
+                Testimoni
+            </a>
+
+            <div class="nav-label">Sistem</div>
+
+            <a class="nav-link" href="/dash-admin-panel/setting.html">
+                <span class="nav-icon">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.5 1.5-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V20h-2.1v-.4a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.5-1.5.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H6v-2.1h.4a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1L9 7.3l.1.1a1.7 1.7 0 0 0 1.9-.3 1.7 1.7 0 0 0 1-1.5V6h2.1v.4a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.5 1.5-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.4v2.1H21a1.7 1.7 0 0 0-1.6.9z"/>
+                    </svg>
+                </span>
+                Pengaturan
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-box">
+                <div class="admin-label">Login sebagai</div>
+
+                <div class="admin-name" id="adminName">
+                    Memuat...
+                </div>
+            </div>
+
+            <button class="logout-button" id="logoutButton">
+                Keluar
+            </button>
+
+        </div>
+
+    </aside>
+
+    <div class="overlay" id="mobileOverlay"></div>
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="mobile-menu"
+                id="mobileMenu"
+                aria-label="Buka menu"
+                aria-expanded="false"
+            >
+                <span></span>
+            </button>
+
+            <div class="topbar-title">
+                CMS Layanan
+            </div>
+
+            <a
+                href="/"
+                target="_blank"
+                rel="noopener"
+                class="view-site"
+            >
+                Lihat Website
+            </a>
+
+        </header>
+
+        <div class="content">
+
+            <header class="page-head">
+
+                <div>
+                    <p class="eyebrow">
+                        Content management system
+                    </p>
+
+                    <h1>
+                        Layanan.
+                    </h1>
+
+                    <p class="description">
+                        Kelola layanan cleaning dari satu tempat.
+                        Setiap layanan dapat memiliki foto,
+                        deskripsi, harga, variasi harga,
+                        badge, durasi, dan pengaturan SEO.
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="add-button"
+                    id="addServiceButton"
+                >
+                    + Tambah layanan
+                </button>
+
+            </header>
+
+
+            <div
+                class="notice"
+                id="notice"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+
+            <div class="toolbar">
+
+                <input
+                    class="search"
+                    id="searchInput"
+                    type="search"
+                    placeholder="Cari layanan..."
+                    autocomplete="off"
+                >
+
+                <div class="count" id="serviceCount">
+                    Memuat...
+                </div>
+
+            </div>
+
+
+            <div
+                class="service-list"
+                id="serviceList"
+            ></div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     SERVICE MODAL
+========================================================= -->
+
+<div
+    class="modal-layer"
+    id="serviceModal"
+    aria-hidden="true"
+>
+
+    <div class="modal">
+
+        <div class="modal-head">
+
+            <h2 id="modalTitle">
+                Tambah layanan
+            </h2>
+
+            <button
+                type="button"
+                class="close-button"
+                id="closeModal"
+                aria-label="Tutup"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <form
+                class="editor"
+                id="serviceForm"
+            >
+
+                <input
+                    type="hidden"
+                    id="serviceId"
+                >
+
+                <input
+                    type="hidden"
+                    id="imageMediaId"
+                >
+
+
+                <!-- =========================
+                     BASIC
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        Informasi layanan
+                    </h3>
+
+                    <p>
+                        Informasi utama yang akan
+                        ditampilkan kepada pengunjung.
+                    </p>
+
+
+                    <div class="field">
+
+                        <label for="serviceName">
+                            Nama layanan *
+                        </label>
+
+                        <input
+                            id="serviceName"
+                            type="text"
+                            maxlength="150"
+                            required
+                            placeholder="Contoh: Cleaning Sofa"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="serviceSlug">
+                            Slug
+                        </label>
+
+                        <input
+                            id="serviceSlug"
+                            type="text"
+                            maxlength="180"
+                            placeholder="cleaning-sofa"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="shortDescription">
+                            Deskripsi singkat
+                        </label>
+
+                        <input
+                            id="shortDescription"
+                            type="text"
+                            maxlength="500"
+                            placeholder="Cleaning sofa untuk mengangkat debu dan noda."
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="description">
+                            Deskripsi lengkap
+                        </label>
+
+                        <textarea
+                            id="description"
+                            maxlength="5000"
+                            placeholder="Jelaskan layanan secara lebih lengkap."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     IMAGE
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        Foto layanan
+                    </h3>
+
+                    <p>
+                        Upload foto ke Cloudflare R2.
+                        File akan masuk ke folder
+                        <strong>services/</strong>.
+                    </p>
+
+
+                    <div class="image-upload">
+
+                        <div
+                            class="image-preview"
+                            id="imagePreview"
+                        >
+                            <div class="image-placeholder">
+                                Belum ada foto
+                            </div>
+                        </div>
+
+
+                        <div class="upload-controls">
+
+                            <label for="imageFile">
+                                Pilih foto
+                            </label>
+
+                            <input
+                                class="file-input"
+                                id="imageFile"
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp,image/avif"
+                            >
+
+                            <div class="upload-note">
+                                Maksimal 10 MB.
+                                JPG, PNG, WebP, atau AVIF.
+                            </div>
+
+                            <div
+                                class="upload-status"
+                                id="uploadStatus"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     PRICE
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        Harga utama
+                    </h3>
+
+                    <p>
+                        Harga yang digunakan sebagai
+                        informasi utama layanan.
+                    </p>
+
+
+                    <div class="grid-3">
+
+                        <div class="field">
+
+                            <label for="priceLabel">
+                                Label harga
+                            </label>
+
+                            <input
+                                id="priceLabel"
+                                type="text"
+                                maxlength="80"
+                                placeholder="Mulai dari"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="price">
+                                Harga
+                            </label>
+
+                            <input
+                                id="price"
+                                type="number"
+                                min="0"
+                                step="1"
+                                placeholder="75000"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="priceUnit">
+                                Satuan
+                            </label>
+
+                            <input
+                                id="priceUnit"
+                                type="text"
+                                maxlength="80"
+                                placeholder="/ kursi"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     PRICE VARIANTS
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        Variasi harga
+                    </h3>
+
+                    <p>
+                        Gunakan jika satu layanan memiliki
+                        beberapa pilihan ukuran, tipe,
+                        atau jumlah.
+                    </p>
+
+
+                    <div
+                        class="price-list"
+                        id="priceList"
+                    ></div>
+
+
+                    <button
+                        type="button"
+                        class="add-price"
+                        id="addPriceButton"
+                    >
+                        + Tambah variasi harga
+                    </button>
+
+                </section>
+
+
+                <!-- =========================
+                     EXTRA
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        Informasi tambahan
+                    </h3>
+
+                    <p>
+                        Informasi kecil yang dapat membantu
+                        pengunjung memahami layanan.
+                    </p>
+
+
+                    <div class="grid-2">
+
+                        <div class="field">
+
+                            <label for="badge">
+                                Badge
+                            </label>
+
+                            <input
+                                id="badge"
+                                type="text"
+                                maxlength="80"
+                                placeholder="Populer"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="duration">
+                                Durasi
+                            </label>
+
+                            <input
+                                id="duration"
+                                type="text"
+                                maxlength="100"
+                                placeholder="1–2 jam"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     DISPLAY
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        Tampilan
+                    </h3>
+
+                    <p>
+                        Atur urutan dan status layanan
+                        pada website.
+                    </p>
+
+
+                    <div class="grid-2">
+
+                        <div class="field">
+
+                            <label for="sortOrder">
+                                Urutan
+                            </label>
+
+                            <input
+                                id="sortOrder"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+
+                        </div>
+
+
+                        <div class="field">
+
+                            <label for="accentStyle">
+                                Gaya visual
+                            </label>
+
+                            <select id="accentStyle">
+
+                                <option value="default">
+                                    Default
+                                </option>
+
+                                <option value="light">
+                                    Light
+                                </option>
+
+                                <option value="dark">
+                                    Dark
+                                </option>
+
+                                <option value="editorial">
+                                    Editorial
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="toggle-grid">
+
+                        <div class="toggle">
+
+                            <input
+                                id="isActive"
+                                type="checkbox"
+                                checked
+                            >
+
+                            <label
+                                class="toggle-label"
+                                for="isActive"
+                            >
+                                Tampilkan layanan
+                            </label>
+
+                        </div>
+
+
+                        <div class="toggle">
+
+                            <input
+                                id="isFeatured"
+                                type="checkbox"
+                            >
+
+                            <label
+                                class="toggle-label"
+                                for="isFeatured"
+                            >
+                                Tandai featured
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =========================
+                     SEO
+                ========================== -->
+
+                <section class="section">
+
+                    <h3>
+                        SEO layanan
+                    </h3>
+
+                    <p>
+                        Metadata khusus untuk halaman
+                        atau rujukan layanan.
+                    </p>
+
+
+                    <div class="field">
+
+                        <label for="metaTitle">
+                            Meta title
+                        </label>
+
+                        <input
+                            id="metaTitle"
+                            type="text"
+                            maxlength="180"
+                            placeholder="Cleaning Sofa — Jaya Cleaning"
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="metaDescription">
+                            Meta description
+                        </label>
+
+                        <textarea
+                            id="metaDescription"
+                            maxlength="320"
+                            placeholder="Deskripsi SEO layanan."
+                        ></textarea>
+
+                    </div>
+
+                </section>
+
+            </form>
+
+
+            <!-- =========================
+                 PREVIEW
+            ========================== -->
+
+            <aside class="preview">
+
+                <div class="preview-label">
+                    Live preview
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div
+                        class="preview-image"
+                        id="previewImage"
+                    >
+                        <div class="image-placeholder">
+                            Foto layanan
+                        </div>
+                    </div>
+
+
+                    <div class="preview-copy">
+
+                        <span
+                            class="preview-badge"
+                            id="previewBadge"
+                            style="display:none"
+                        ></span>
+
+
+                        <div
+                            class="preview-title"
+                            id="previewTitle"
+                        >
+                            Nama layanan
+                        </div>
+
+
+                        <div
+                            class="preview-description"
+                            id="previewDescription"
+                        >
+                            Deskripsi layanan akan
+                            muncul di sini.
+                        </div>
+
+
+                        <div
+                            class="preview-price"
+                            id="previewPrice"
+                        >
+                            —
+                        </div>
+
+
+                        <div
+                            class="preview-info"
+                            id="previewInfo"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="button button-danger"
+                id="deleteServiceButton"
+                style="display:none;margin-right:auto"
+            >
+                Hapus layanan
+            </button>
+
+            <button
+                type="button"
+                class="button button-secondary"
+                id="cancelButton"
+            >
+                Batal
+            </button>
+
+            <button
+                type="submit"
+                form="serviceForm"
+                class="button button-primary"
+                id="saveServiceButton"
+            >
+                Simpan layanan
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+(() => {
+
+    "use strict";
+
+
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+    const mobileOverlay =
+        document.getElementById("mobileOverlay");
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
+
+    const adminName =
+        document.getElementById("adminName");
+
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+    const notice =
+        document.getElementById("notice");
+
+    const serviceList =
+        document.getElementById("serviceList");
+
+    const serviceCount =
+        document.getElementById("serviceCount");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const addServiceButton =
+        document.getElementById("addServiceButton");
+
+    const serviceModal =
+        document.getElementById("serviceModal");
+
+    const closeModal =
+        document.getElementById("closeModal");
+
+    const cancelButton =
+        document.getElementById("cancelButton");
+
+    const serviceForm =
+        document.getElementById("serviceForm");
+
+    const saveServiceButton =
+        document.getElementById("saveServiceButton");
+
+    const deleteServiceButton =
+        document.getElementById("deleteServiceButton");
+
+    const addPriceButton =
+        document.getElementById("addPriceButton");
+
+    const priceList =
+        document.getElementById("priceList");
+
+    const imageFile =
+        document.getElementById("imageFile");
+
+    const imagePreview =
+        document.getElementById("imagePreview");
+
+    const previewImage =
+        document.getElementById("previewImage");
+
+    const uploadStatus =
+        document.getElementById("uploadStatus");
+
+
+    /* =========================================================
+       STATE
+    ========================================================= */
+
+    let services = [];
+
+    let editingId = null;
+
+    let uploadedMediaId = null;
+
+    let noticeTimer = null;
+
+
+    /* =========================================================
+       API
+    ========================================================= */
+
+    async function api(
+        endpoint,
+        options = {}
+    ) {
+
+        const response =
+            await fetch(
+                endpoint,
+                {
+                    credentials:"same-origin",
+                    cache:"no-store",
+                    ...options,
+                    headers:{
+                        "Accept":"application/json",
+                        ...(options.headers || {})
+                    }
+                }
+            );
+
+
+        let data = null;
+
+        try {
+            data = await response.json();
+        } catch {
+            data = null;
+        }
+
+
+        if (response.status === 401) {
+
+            window.location.replace(
+                "/dash-admin-panel/login.html"
+            );
+
+            throw new Error(
+                "Session expired"
+            );
+        }
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data?.message ||
+                "Request gagal."
+            );
+        }
+
+
+        return data;
+    }
+
+
+    /* =========================================================
+       NOTICE
+    ========================================================= */
+
+    function showNotice(
+        message,
+        type = "success"
+    ) {
+
+        clearTimeout(noticeTimer);
+
+        notice.textContent = message;
+
+        notice.className =
+            `notice show ${type}`;
+
+        noticeTimer =
+            setTimeout(() => {
+                notice.classList.remove("show");
+            },5000);
+    }
+
+
+    /* =========================================================
+       SESSION
+    ========================================================= */
+
+    async function loadSession() {
+
+        const result =
+            await api("/api/auth/me");
+
+
+        if (
+            !result ||
+            !result.success ||
+            !result.authenticated
+        ) {
+
+            window.location.replace(
+                "/dash-admin-panel/login.html"
+            );
+
+            return false;
+        }
+
+
+        const admin =
+            result.admin ||
+            result.data ||
+            {};
+
+
+        adminName.textContent =
+            admin.name ||
+            admin.username ||
+            "Administrator";
+
+
+        return true;
+    }
+
+
+    /* =========================================================
+       LOAD SERVICES
+    ========================================================= */
+
+    async function loadServices() {
+
+        serviceList.innerHTML =
+            `
+                <div class="empty-state">
+                    <strong>Memuat layanan...</strong>
+                </div>
+            `;
+
+
+        try {
+
+            const result =
+                await api(
+                    "/api/services?all=1"
+                );
+
+
+            services =
+                result.data ||
+                result.services ||
+                [];
+
+
+            services.sort(
+                (a,b) =>
+                    Number(a.sort_order || 0) -
+                    Number(b.sort_order || 0)
+            );
+
+
+            renderServices();
+
+        } catch (error) {
+
+            console.error(
+                "SERVICE LOAD ERROR:",
+                error
+            );
+
+            serviceList.innerHTML =
+                `
+                    <div class="empty-state">
+                        <strong>Gagal memuat layanan</strong>
+                        <p>
+                            ${escapeHtml(
+                                error.message ||
+                                "Terjadi kesalahan."
+                            )}
+                        </p>
+                    </div>
+                `;
+
+            serviceCount.textContent =
+                "Gagal memuat";
+
+        }
+    }
+
+
+    /* =========================================================
+       RENDER SERVICES
+    ========================================================= */
+
+    function renderServices() {
+
+        const query =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        const filtered =
+            services.filter(
+                service => {
+
+                    if (!query) {
+                        return true;
+                    }
+
+                    return (
+                        String(service.name || "")
+                            .toLowerCase()
+                            .includes(query)
+                        ||
+                        String(service.slug || "")
+                            .toLowerCase()
+                            .includes(query)
+                        ||
+                        String(service.short_description || "")
+                            .toLowerCase()
+                            .includes(query)
+                    );
+                }
+            );
+
+
+        serviceCount.textContent =
+            `${filtered.length} layanan`;
+
+
+        if (!filtered.length) {
+
+            serviceList.innerHTML =
+                `
+                    <div class="empty-state">
+                        <strong>
+                            ${
+                                query
+                                    ? "Layanan tidak ditemukan"
+                                    : "Belum ada layanan"
+                            }
+                        </strong>
+
+                        <p>
+                            ${
+                                query
+                                    ? "Coba gunakan kata pencarian lain."
+                                    : "Tambahkan layanan pertama melalui tombol di atas."
+                            }
+                        </p>
+                    </div>
+                `;
+
+            return;
+        }
+
+
+        serviceList.innerHTML =
+            filtered
+                .map(
+                    service =>
+                        serviceRowHtml(service)
+                )
+                .join("");
+
+
+        serviceList
+            .querySelectorAll(
+                "[data-edit]"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const id =
+                                Number(
+                                    button.dataset.edit
+                                );
+
+                            openEditService(id);
+                        }
+                    );
+                }
+            );
+
+
+        serviceList
+            .querySelectorAll(
+                "[data-delete]"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "click",
+                        () => {
+
+                            const id =
+                                Number(
+                                    button.dataset.delete
+                                );
+
+                            deleteService(id);
+                        }
+                    );
+                }
+            );
+    }
+
+
+    function serviceRowHtml(service) {
+
+        const image =
+            service.image_url ||
+            service.imageUrl ||
+            (
+                service.image_media_id
+                    ? `/api/upload/${service.image_media_id}`
+                    : ""
+            );
+
+
+        const description =
+            service.short_description ||
+            service.description ||
+            "Belum ada deskripsi.";
+
+
+        const price =
+            formatPrice(
+                service.price
+            );
+
+
+        return `
+            <article class="service-row">
+
+                <div class="service-thumb">
+
+                    ${
+                        image
+                            ? `
+                                <img
+                                    src="${escapeAttribute(image)}"
+                                    alt="${escapeAttribute(service.name || "")}"
+                                    loading="lazy"
+                                >
+                            `
+                            : `
+                                <div class="thumb-empty">
+                                    Belum ada foto
+                                </div>
+                            `
+                    }
+
+                </div>
+
+
+                <div class="service-main">
+
+                    <div class="service-title">
+
+                        <strong>
+                            ${escapeHtml(service.name || "Tanpa nama")}
+                        </strong>
+
+                        ${
+                            Number(service.is_active)
+                                ? `<span class="status active">AKTIF</span>`
+                                : `<span class="status inactive">NONAKTIF</span>`
+                        }
+
+                        ${
+                            Number(service.is_featured)
+                                ? `<span class="status featured">FEATURED</span>`
+                                : ""
+                        }
+
+                    </div>
+
+
+                    <div class="service-description">
+                        ${escapeHtml(description)}
+                    </div>
+
+
+                    <div class="service-meta">
+
+                        <span>
+                            ${escapeHtml(service.slug || "—")}
+                        </span>
+
+                        <span>
+                            ${price !== "—" ? price : "Harga belum diatur"}
+                        </span>
+
+                        <span>
+                            Urutan ${Number(service.sort_order || 0)}
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="service-actions">
+
+                    <button
+                        type="button"
+                        class="small-button"
+                        data-edit="${Number(service.id)}"
+                    >
+                        Edit
+                    </button>
+
+                    <button
+                        type="button"
+                        class="small-button danger"
+                        data-delete="${Number(service.id)}"
+                    >
+                        Hapus
+                    </button>
+
+                </div>
+
+            </article>
+        `;
+    }
+
+
+    /* =========================================================
+       OPEN MODAL
+    ========================================================= */
+
+    function openModal() {
+
+        serviceModal.classList.add("open");
+
+        serviceModal.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        document.body.style.overflow =
+            "hidden";
+    }
+
+
+    function closeServiceModal() {
+
+        serviceModal.classList.remove("open");
+
+        serviceModal.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        document.body.style.overflow =
+            "";
+    }
+
+
+    /* =========================================================
+       RESET FORM
+    ========================================================= */
+
+    function resetForm() {
+
+        serviceForm.reset();
+
+        editingId = null;
+
+        uploadedMediaId = null;
+
+        document.getElementById(
+            "serviceId"
+        ).value = "";
+
+        document.getElementById(
+            "imageMediaId"
+        ).value = "";
+
+        document.getElementById(
+            "sortOrder"
+        ).value = "0";
+
+        document.getElementById(
+            "accentStyle"
+        ).value = "default";
+
+        document.getElementById(
+            "isActive"
+        ).checked = true;
+
+        document.getElementById(
+            "isFeatured"
+        ).checked = false;
+
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            "Tambah layanan";
+
+
+        deleteServiceButton.style.display =
+            "none";
+
+
+        resetImagePreview();
+
+        priceList.innerHTML = "";
+
+        uploadStatus.textContent = "";
+
+        uploadStatus.className =
+            "upload-status";
+
+
+        updatePreview();
+    }
+
+
+    /* =========================================================
+       OPEN CREATE
+    ========================================================= */
+
+    addServiceButton.addEventListener(
+        "click",
+        () => {
+
+            resetForm();
+
+            openModal();
+
+        }
+    );
+
+
+    /* =========================================================
+       OPEN EDIT
+    ========================================================= */
+
+    async function openEditService(id) {
+
+        try {
+
+            const result =
+                await api(
+                    `/api/services/${id}`
+                );
+
+
+            const service =
+                result.data ||
+                result.service;
+
+
+            if (!service) {
+                throw new Error(
+                    "Data layanan tidak ditemukan."
+                );
+            }
+
+
+            resetForm();
+
+
+            editingId =
+                Number(service.id);
+
+
+            document.getElementById(
+                "modalTitle"
+            ).textContent =
+                "Edit layanan";
+
+
+            deleteServiceButton.style.display =
+                "inline-flex";
+
+
+            setValue(
+                "serviceId",
+                service.id
+            );
+
+            setValue(
+                "serviceName",
+                service.name
+            );
+
+            setValue(
+                "serviceSlug",
+                service.slug
+            );
+
+            setValue(
+                "shortDescription",
+                service.short_description
+            );
+
+            setValue(
+                "description",
+                service.description
+            );
+
+            setValue(
+                "priceLabel",
+                service.price_label
+            );
+
+            setValue(
+                "price",
+                service.price
+            );
+
+            setValue(
+                "priceUnit",
+                service.price_unit
+            );
+
+            setValue(
+                "badge",
+                service.badge
+            );
+
+            setValue(
+                "duration",
+                service.duration
+            );
+
+            setValue(
+                "sortOrder",
+                service.sort_order ?? 0
+            );
+
+            setValue(
+                "accentStyle",
+                service.accent_style || "default"
+            );
+
+            setValue(
+                "metaTitle",
+                service.meta_title
+            );
+
+            setValue(
+                "metaDescription",
+                service.meta_description
+            );
+
+
+            document.getElementById(
+                "isActive"
+            ).checked =
+                Number(service.is_active) === 1;
+
+
+            document.getElementById(
+                "isFeatured"
+            ).checked =
+                Number(service.is_featured) === 1;
+
+
+            uploadedMediaId =
+                service.image_media_id
+                    ? Number(service.image_media_id)
+                    : null;
+
+
+            document.getElementById(
+                "imageMediaId"
+            ).value =
+                uploadedMediaId || "";
+
+
+            const image =
+                service.image_url ||
+                service.imageUrl ||
+                (
+                    uploadedMediaId
+                        ? `/api/upload/${uploadedMediaId}`
+                        : ""
+                );
+
+
+            if (image) {
+                setImagePreview(image);
+            } else {
+                resetImagePreview();
+            }
+
+
+            const prices =
+                service.prices ||
+                service.price_variants ||
+                [];
+
+
+            prices.forEach(
+                price => {
+
+                    addPriceRow({
+                        id:price.id,
+                        variant_name:price.variant_name,
+                        description:price.description,
+                        price:price.price,
+                        price_label:price.price_label,
+                        unit:price.unit,
+                        sort_order:price.sort_order,
+                        is_active:price.is_active
+                    });
+
+                }
+            );
+
+
+            updatePreview();
+
+            openModal();
+
+        } catch (error) {
+
+            console.error(
+                "EDIT SERVICE ERROR:",
+                error
+            );
+
+            showNotice(
+                error.message ||
+                "Layanan gagal dimuat.",
+                "error"
+            );
+        }
+    }
+
+
+    /* =========================================================
+       VALUE HELPER
+    ========================================================= */
+
+    function setValue(
+        id,
+        value
+    ) {
+
+        const element =
+            document.getElementById(id);
+
+        if (element) {
+            element.value =
+                value ?? "";
+        }
+    }
+
+
+    /* =========================================================
+       IMAGE PREVIEW
+    ========================================================= */
+
+    function resetImagePreview() {
+
+        imagePreview.innerHTML =
+            `
+                <div class="image-placeholder">
+                    Belum ada foto
+                </div>
+            `;
+
+        previewImage.innerHTML =
+            `
+                <div class="image-placeholder">
+                    Foto layanan
+                </div>
+            `;
+    }
+
+
+    function setImagePreview(url) {
+
+        imagePreview.innerHTML =
+            `
+                <img
+                    src="${escapeAttribute(url)}"
+                    alt=""
+                >
+            `;
+
+
+        previewImage.innerHTML =
+            `
+                <img
+                    src="${escapeAttribute(url)}"
+                    alt=""
+                >
+            `;
+    }
+
+
+    /* =========================================================
+       UPLOAD IMAGE
+    ========================================================= */
+
+    imageFile.addEventListener(
+        "change",
+        async () => {
+
+            const file =
+                imageFile.files?.[0];
+
+
+            if (!file) {
+                return;
+            }
+
+
+            if (file.size > 10 * 1024 * 1024) {
+
+                uploadStatus.textContent =
+                    "File terlalu besar. Maksimal 10 MB.";
+
+                uploadStatus.className =
+                    "upload-status error";
+
+                imageFile.value = "";
+
+                return;
+            }
+
+
+            uploadStatus.textContent =
+                "Mengunggah foto...";
+
+            uploadStatus.className =
+                "upload-status";
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
+            );
+
+
+            formData.append(
+                "folder",
+                "services"
+            );
+
+
+            const serviceName =
+                document.getElementById(
+                    "serviceName"
+                ).value.trim();
+
+
+            formData.append(
+                "alt_text",
+                serviceName ||
+                "Foto layanan cleaning"
+            );
+
+
+            try {
+
+                const result =
+                    await api(
+                        "/api/upload",
+                        {
+                            method:"POST",
+                            body:formData
+                        }
+                    );
+
+
+                const media =
+                    result.data ||
+                    result.media ||
+                    {};
+
+
+                uploadedMediaId =
+                    Number(
+                        media.id ||
+                        result.id ||
+                        0
+                    );
+
+
+                if (!uploadedMediaId) {
+
+                    throw new Error(
+                        "ID media tidak diterima dari server."
+                    );
+                }
+
+
+                document.getElementById(
+                    "imageMediaId"
+                ).value =
+                    uploadedMediaId;
+
+
+                const url =
+                    media.url ||
+                    `/api/upload/${uploadedMediaId}`;
+
+
+                setImagePreview(url);
+
+
+                uploadStatus.textContent =
+                    "Foto berhasil diunggah.";
+
+
+                uploadStatus.className =
+                    "upload-status success";
+
+
+                updatePreview();
+
+            } catch (error) {
+
+                console.error(
+                    "UPLOAD ERROR:",
+                    error
+                );
+
+                uploadStatus.textContent =
+                    error.message ||
+                    "Upload gagal.";
+
+
+                uploadStatus.className =
+                    "upload-status error";
+            }
+        }
+    );
+
+
+    /* =========================================================
+       PRICE VARIANTS
+    ========================================================= */
+
+    addPriceButton.addEventListener(
+        "click",
+        () => {
+
+            addPriceRow();
+
+        }
+    );
+
+
+    function addPriceRow(
+        data = {}
+    ) {
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+
+        row.className =
+            "price-row";
+
+
+        row.dataset.priceId =
+            data.id || "";
+
+
+        row.innerHTML =
+            `
+                <input
+                    type="text"
+                    class="variant-name"
+                    maxlength="150"
+                    placeholder="Contoh: 2-seater"
+                    value="${escapeAttribute(data.variant_name || "")}"
+                >
+
+                <input
+                    type="number"
+                    class="variant-price"
+                    min="0"
+                    step="1"
+                    placeholder="150000"
+                    value="${data.price ?? ""}"
+                >
+
+                <input
+                    type="text"
+                    class="variant-unit"
+                    maxlength="80"
+                    placeholder="/ unit"
+                    value="${escapeAttribute(data.unit || "")}"
+                >
+
+                <button
+                    type="button"
+                    class="remove-price"
+                    aria-label="Hapus variasi"
+                >
+                    ×
+                </button>
+            `;
+
+
+        row
+            .querySelector(
+                ".remove-price"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    row.remove();
+
+                }
+            );
+
+
+        row
+            .querySelectorAll("input")
+            .forEach(
+                input => {
+
+                    input.addEventListener(
+                        "input",
+                        updatePreview
+                    );
+
+                }
+            );
+
+
+        priceList.appendChild(row);
+    }
+
+
+    function collectPrices() {
+
+        return [
+            ...priceList.querySelectorAll(
+                ".price-row"
+            )
+        ]
+        .map(
+            (row,index) => {
+
+                const id =
+                    row.dataset.priceId;
+
+
+                return {
+                    id:
+                        id
+                            ? Number(id)
+                            : null,
+
+                    variant_name:
+                        row.querySelector(
+                            ".variant-name"
+                        ).value.trim(),
+
+                    price:
+                        Number(
+                            row.querySelector(
+                                ".variant-price"
+                            ).value || 0
+                        ),
+
+                    unit:
+                        row.querySelector(
+                            ".variant-unit"
+                        ).value.trim(),
+
+                    description:"",
+                    price_label:"",
+                    sort_order:index,
+                    is_active:1
+                };
+
+            }
+        )
+        .filter(
+            item =>
+                item.variant_name ||
+                item.price > 0
+        );
+    }
+
+
+    /* =========================================================
+       SAVE SERVICE
+    ========================================================= */
+
+    serviceForm.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            const name =
+                document.getElementById(
+                    "serviceName"
+                ).value.trim();
+
+
+            if (!name) {
+
+                showNotice(
+                    "Nama layanan wajib diisi.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            saveServiceButton.disabled =
+                true;
+
+            saveServiceButton.textContent =
+                "Menyimpan...";
+
+
+            const payload = {
+
+                name,
+
+                slug:
+                    document.getElementById(
+                        "serviceSlug"
+                    ).value.trim(),
+
+                short_description:
+                    document.getElementById(
+                        "shortDescription"
+                    ).value.trim(),
+
+                description:
+                    document.getElementById(
+                        "description"
+                    ).value.trim(),
+
+                price_label:
+                    document.getElementById(
+                        "priceLabel"
+                    ).value.trim(),
+
+                price:
+                    document.getElementById(
+                        "price"
+                    ).value === ""
+                        ? null
+                        : Number(
+                            document.getElementById(
+                                "price"
+                            ).value
+                        ),
+
+                price_unit:
+                    document.getElementById(
+                        "priceUnit"
+                    ).value.trim(),
+
+                image_media_id:
+                    uploadedMediaId
+                        ? Number(uploadedMediaId)
+                        : null,
+
+                accent_style:
+                    document.getElementById(
+                        "accentStyle"
+                    ).value,
+
+                badge:
+                    document.getElementById(
+                        "badge"
+                    ).value.trim(),
+
+                duration:
+                    document.getElementById(
+                        "duration"
+                    ).value.trim(),
+
+                sort_order:
+                    Number(
+                        document.getElementById(
+                            "sortOrder"
+                        ).value || 0
+                    ),
+
+                is_featured:
+                    document.getElementById(
+                        "isFeatured"
+                    ).checked
+                        ? 1
+                        : 0,
+
+                is_active:
+                    document.getElementById(
+                        "isActive"
+                    ).checked
+                        ? 1
+                        : 0,
+
+                meta_title:
+                    document.getElementById(
+                        "metaTitle"
+                    ).value.trim(),
+
+                meta_description:
+                    document.getElementById(
+                        "metaDescription"
+                    ).value.trim()
+
+            };
+
+
+            try {
+
+                let result;
+
+
+                if (editingId) {
+
+                    result =
+                        await api(
+                            `/api/services/${editingId}`,
+                            {
+                                method:"PUT",
+                                headers:{
+                                    "Content-Type":
+                                        "application/json"
+                                },
+                                body:
+                                    JSON.stringify(
+                                        payload
+                                    )
+                            }
+                        );
+
+                } else {
+
+                    result =
+                        await api(
+                            "/api/services",
+                            {
+                                method:"POST",
+                                headers:{
+                                    "Content-Type":
+                                        "application/json"
+                                },
+                                body:
+                                    JSON.stringify(
+                                        payload
+                                    )
+                            }
+                        );
+                }
+
+
+                const saved =
+                    result.data ||
+                    result.service ||
+                    {};
+
+
+                const serviceId =
+                    Number(
+                        saved.id ||
+                        editingId ||
+                        0
+                    );
+
+
+                if (!serviceId) {
+
+                    throw new Error(
+                        "ID layanan tidak diterima."
+                    );
+                }
+
+
+                /*
+                 * Sinkronisasi variasi harga.
+                 *
+                 * Existing price IDs di-update.
+                 * Variasi baru dibuat.
+                 * Variasi yang dihapus dari form
+                 * tidak langsung dihapus di sini
+                 * agar data server tidak hilang
+                 * secara tidak sengaja.
+                 */
+
+                const prices =
+                    collectPrices();
+
+
+                for (
+                    const price
+                    of prices
+                ) {
+
+                    if (price.id) {
+
+                        await api(
+                            `/api/services/${serviceId}/prices/${price.id}`,
+                            {
+                                method:"PUT",
+
+                                headers:{
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        price
+                                    )
+                            }
+                        );
+
+                    } else {
+
+                        await api(
+                            `/api/services/${serviceId}/prices`,
+                            {
+                                method:"POST",
+
+                                headers:{
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        price
+                                    )
+                            }
+                        );
+                    }
+                }
+
+
+                closeServiceModal();
+
+                await loadServices();
+
+
+                showNotice(
+                    editingId
+                        ? "Layanan berhasil diperbarui."
+                        : "Layanan berhasil ditambahkan.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "SAVE SERVICE ERROR:",
+                    error
+                );
+
+                showNotice(
+                    error.message ||
+                    "Layanan gagal disimpan.",
+                    "error"
+                );
+
+            } finally {
+
+                saveServiceButton.disabled =
+                    false;
+
+                saveServiceButton.textContent =
+                    "Simpan layanan";
+            }
+        }
+    );
+
+
+    /* =========================================================
+       DELETE SERVICE
+    ========================================================= */
+
+    deleteServiceButton.addEventListener(
+        "click",
+        async () => {
+
+            if (!editingId) {
+                return;
+            }
+
+
+            const service =
+                services.find(
+                    item =>
+                        Number(item.id) ===
+                        Number(editingId)
+                );
+
+
+            const confirmed =
+                window.confirm(
+                    `Hapus layanan "${service?.name || "ini"}"?\n\nData layanan akan dihapus dari database.`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            deleteServiceButton.disabled =
+                true;
+
+            deleteServiceButton.textContent =
+                "Menghapus...";
+
+
+            try {
+
+                await api(
+                    `/api/services/${editingId}`,
+                    {
+                        method:"DELETE"
+                    }
+                );
+
+
+                closeServiceModal();
+
+                await loadServices();
+
+
+                showNotice(
+                    "Layanan berhasil dihapus.",
+                    "success"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "DELETE SERVICE ERROR:",
+                    error
+                );
+
+                showNotice(
+                    error.message ||
+                    "Layanan gagal dihapus.",
+                    "error"
+                );
+
+            } finally {
+
+                deleteServiceButton.disabled =
+                    false;
+
+                deleteServiceButton.textContent =
+                    "Hapus layanan";
+            }
+        }
+    );
+
+
+    /* =========================================================
+       QUICK DELETE
+    ========================================================= */
+
+    async function deleteService(id) {
+
+        const service =
+            services.find(
+                item =>
+                    Number(item.id) ===
+                    Number(id)
+            );
+
+
+        const confirmed =
+            window.confirm(
+                `Hapus layanan "${service?.name || "ini"}"?`
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await api(
+                `/api/services/${id}`,
+                {
+                    method:"DELETE"
+                }
+            );
+
+
+            await loadServices();
+
+
+            showNotice(
+                "Layanan berhasil dihapus.",
+                "success"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "DELETE SERVICE ERROR:",
+                error
+            );
+
+            showNotice(
+                error.message ||
+                "Layanan gagal dihapus.",
+                "error"
+            );
+        }
+    }
+
+
+    /* =========================================================
+       LIVE PREVIEW
+    ========================================================= */
+
+    function updatePreview() {
+
+        const title =
+            document.getElementById(
+                "serviceName"
+            ).value.trim();
+
+
+        const description =
+            document.getElementById(
+                "shortDescription"
+            ).value.trim();
+
+
+        const badge =
+            document.getElementById(
+                "badge"
+            ).value.trim();
+
+
+        const price =
+            document.getElementById(
+                "price"
+            ).value;
+
+
+        const priceLabel =
+            document.getElementById(
+                "priceLabel"
+            ).value.trim();
+
+
+        const priceUnit =
+            document.getElementById(
+                "priceUnit"
+            ).value.trim();
+
+
+        const duration =
+            document.getElementById(
+                "duration"
+            ).value.trim();
+
+
+        document.getElementById(
+            "previewTitle"
+        ).textContent =
+            title ||
+            "Nama layanan";
+
+
+        document.getElementById(
+            "previewDescription"
+        ).textContent =
+            description ||
+            "Deskripsi layanan akan muncul di sini.";
+
+
+        const badgeElement =
+            document.getElementById(
+                "previewBadge"
+            );
+
+
+        if (badge) {
+
+            badgeElement.textContent =
+                badge;
+
+            badgeElement.style.display =
+                "inline-flex";
+
+        } else {
+
+            badgeElement.style.display =
+                "none";
+        }
+
+
+        const priceElement =
+            document.getElementById(
+                "previewPrice"
+            );
+
+
+        if (price !== "") {
+
+            priceElement.innerHTML =
+                `
+                    ${escapeHtml(
+                        priceLabel ||
+                        "Mulai dari"
+                    )}
+
+                    ${formatPrice(price)}
+
+                    ${
+                        priceUnit
+                            ? `
+                                <span class="preview-unit">
+                                    ${escapeHtml(priceUnit)}
+                                </span>
+                            `
+                            : ""
+                    }
+                `;
+
+        } else {
+
+            priceElement.textContent =
+                "Harga belum diatur";
+        }
+
+
+        const info =
+            document.getElementById(
+                "previewInfo"
+            );
+
+
+        const chips = [];
+
+
+        if (duration) {
+
+            chips.push(
+                `<span>${escapeHtml(duration)}</span>`
+            );
+        }
+
+
+        if (
+            document.getElementById(
+                "isFeatured"
+            ).checked
+        ) {
+
+            chips.push(
+                `<span>Featured</span>`
+            );
+        }
+
+
+        if (
+            !document.getElementById(
+                "isActive"
+            ).checked
+        ) {
+
+            chips.push(
+                `<span>Tidak ditampilkan</span>`
+            );
+        }
+
+
+        info.innerHTML =
+            chips.join("");
+    }
+
+
+    document
+        .querySelectorAll(
+            "#serviceForm input, #serviceForm textarea, #serviceForm select"
+        )
+        .forEach(
+            element => {
+
+                element.addEventListener(
+                    "input",
+                    updatePreview
+                );
+
+                element.addEventListener(
+                    "change",
+                    updatePreview
+                );
+            }
+        );
+
+
+    /* =========================================================
+       SEARCH
+    ========================================================= */
+
+    searchInput.addEventListener(
+        "input",
+        renderServices
+    );
+
+
+    /* =========================================================
+       MODAL CONTROLS
+    ========================================================= */
+
+    closeModal.addEventListener(
+        "click",
+        closeServiceModal
+    );
+
+
+    cancelButton.addEventListener(
+        "click",
+        closeServiceModal
+    );
+
+
+    serviceModal.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target ===
+                serviceModal
+            ) {
+                closeServiceModal();
+            }
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape" &&
+                serviceModal.classList.contains(
+                    "open"
+                )
+            ) {
+
+                closeServiceModal();
+            }
+        }
+    );
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    logoutButton.addEventListener(
+        "click",
+        async () => {
+
+            logoutButton.disabled =
+                true;
+
+            logoutButton.textContent =
+                "Keluar...";
+
+
+            try {
+
+                await fetch(
+                    "/api/auth/logout",
+                    {
+                        method:"POST",
+                        credentials:"same-origin",
+                        headers:{
+                            "Accept":
+                                "application/json"
+                        },
+                        cache:"no-store"
+                    }
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "LOGOUT ERROR:",
+                    error
+                );
+
+            } finally {
+
+                window.location.replace(
+                    "/dash-admin-panel/login.html"
+                );
+            }
+        }
+    );
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    function openMobileMenu() {
+
+        sidebar.classList.add("open");
+
+        mobileOverlay.classList.add("open");
+
+        mobileMenu.classList.add("open");
+
+        mobileMenu.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+    }
+
+
+    function closeMobileMenu() {
+
+        sidebar.classList.remove("open");
+
+        mobileOverlay.classList.remove("open");
+
+        mobileMenu.classList.remove("open");
+
+        mobileMenu.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+    }
+
+
+    mobileMenu.addEventListener(
+        "click",
+        () => {
+
+            if (
+                sidebar.classList.contains(
+                    "open"
+                )
+            ) {
+                closeMobileMenu();
+            } else {
+                openMobileMenu();
+            }
+        }
+    );
+
+
+    mobileOverlay.addEventListener(
+        "click",
+        closeMobileMenu
+    );
+
+
+    document
+        .querySelectorAll(
+            ".nav-link"
+        )
+        .forEach(
+            link => {
+
+                link.addEventListener(
+                    "click",
+                    closeMobileMenu
+                );
+
+            }
+        );
+
+
+    /* =========================================================
+       FORMATTERS
+    ========================================================= */
+
+    function formatPrice(value) {
+
+        if (
+            value === null ||
+            value === undefined ||
+            value === ""
+        ) {
+            return "—";
+        }
+
+
+        const number =
+            Number(value);
+
+
+        if (
+            !Number.isFinite(number)
+        ) {
+            return "—";
+        }
+
+
+        return new Intl.NumberFormat(
+            "id-ID",
+            {
+                style:"currency",
+                currency:"IDR",
+                maximumFractionDigits:0
+            }
+        ).format(number);
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value ?? "")
+            .replaceAll("&","&amp;")
+            .replaceAll("<","&lt;")
+            .replaceAll(">","&gt;")
+            .replaceAll('"',"&quot;")
+            .replaceAll("'","&#039;");
+    }
+
+
+    function escapeAttribute(value) {
+        return escapeHtml(value);
+    }
+
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+
+    async function init() {
+
+        try {
+
+            const authenticated =
+                await loadSession();
+
+
+            if (!authenticated) {
+                return;
+            }
+
+
+            await loadServices();
+
+        } catch (error) {
+
+            console.error(
+                "CMS INIT ERROR:",
+                error
+            );
+
+            showNotice(
+                error.message ||
+                "CMS gagal dimuat.",
+                "error"
+            );
+        }
+    }
+
+
+    init();
+
+})();
+</script>
+
+</body>
+</html>
