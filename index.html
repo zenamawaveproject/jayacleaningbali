@@ -1041,11 +1041,6 @@
 
       cursor: grab;
 
-      /*
-        Sangat penting:
-        slider hanya boleh bergerak horizontal.
-      */
-
       touch-action: pan-x;
 
     }
@@ -1088,11 +1083,6 @@
 
     }
 
-
-    /*
-      HASIL PEKERJAAN SELALU 1:1
-      Cocok untuk foto 1080 x 1080.
-    */
 
     .work-image {
 
@@ -1387,6 +1377,163 @@
 
 
     /* =========================
+       FAQ
+    ========================= */
+
+    .faq {
+
+      padding: 110px 0;
+
+      background: var(--bg);
+
+      border-top: 1px solid var(--line);
+
+    }
+
+
+    .faq-intro {
+
+      display: grid;
+
+      grid-template-columns: 0.55fr 1.45fr;
+
+      gap: 70px;
+
+      margin-bottom: 55px;
+
+    }
+
+
+    .faq-intro h2 {
+
+      font-size: clamp(40px, 5vw, 70px);
+
+      line-height: 0.98;
+
+      max-width: 850px;
+
+    }
+
+
+    .faq-description {
+
+      margin-top: 25px;
+
+      max-width: 650px;
+
+      color: var(--muted);
+
+      font-size: 14px;
+
+      line-height: 1.8;
+
+    }
+
+
+    .faq-list {
+
+      border-top: 1px solid var(--line);
+
+    }
+
+
+    .faq-item {
+
+      border-bottom: 1px solid var(--line);
+
+    }
+
+
+    .faq-question {
+
+      list-style: none;
+
+      cursor: pointer;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 30px;
+
+      min-height: 82px;
+
+      font-size: 15px;
+
+      font-weight: 700;
+
+    }
+
+
+    .faq-question::-webkit-details-marker {
+
+      display: none;
+
+    }
+
+
+    .faq-question::after {
+
+      content: "+";
+
+      flex-shrink: 0;
+
+      width: 34px;
+
+      height: 34px;
+
+      display: grid;
+
+      place-items: center;
+
+      border: 1px solid var(--line);
+
+      font-size: 20px;
+
+      font-weight: 400;
+
+      transition:
+
+        transform 0.25s ease,
+
+        background 0.25s ease,
+
+        color 0.25s ease;
+
+    }
+
+
+    .faq-item[open] .faq-question::after {
+
+      content: "−";
+
+      background: var(--dark);
+
+      color: white;
+
+      border-color: var(--dark);
+
+    }
+
+
+    .faq-answer {
+
+      max-width: 800px;
+
+      padding: 0 70px 30px 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.9;
+
+    }
+
+
+    /* =========================
        CTA
     ========================= */
 
@@ -1595,7 +1742,9 @@
 
       display: flex;
 
-      gap: 8px;
+      flex-wrap: wrap;
+
+      gap: 9px;
 
       margin-top: 22px;
 
@@ -1604,19 +1753,27 @@
 
     .social-link {
 
-      width: 42px;
+      min-height: 42px;
 
-      height: 42px;
+      display: inline-flex;
 
-      display: grid;
+      align-items: center;
 
-      place-items: center;
+      justify-content: center;
+
+      gap: 9px;
+
+      padding: 0 13px;
 
       border: 1px solid rgba(255,255,255,0.16);
 
       color: white;
 
       transition: all 0.2s ease;
+
+      font-size: 11px;
+
+      font-weight: 700;
 
     }
 
@@ -1637,6 +1794,8 @@
       width: 18px;
 
       height: 18px;
+
+      flex-shrink: 0;
 
     }
 
@@ -1840,6 +1999,7 @@
       .section-heading,
       .work-intro,
       .why-grid,
+      .faq-intro,
       .cta-grid {
 
         grid-template-columns: 1fr;
@@ -1868,7 +2028,8 @@
       .intro,
       .services,
       .work-section,
-      .why {
+      .why,
+      .faq {
 
         padding: 75px 0;
 
@@ -1883,7 +2044,8 @@
 
 
       .section-heading,
-      .work-intro {
+      .work-intro,
+      .faq-intro {
 
         margin-bottom: 40px;
 
@@ -1961,6 +2123,26 @@
       .work-image {
 
         aspect-ratio: 1 / 1;
+
+      }
+
+
+      .faq-question {
+
+        min-height: 74px;
+
+        font-size: 14px;
+
+      }
+
+
+      .faq-answer {
+
+        padding-right: 0;
+
+        padding-bottom: 25px;
+
+        font-size: 13px;
 
       }
 
@@ -2065,6 +2247,15 @@
       .footer-brand {
 
         grid-column: auto;
+
+      }
+
+
+      .social-link {
+
+        flex: 1 1 100%;
+
+        justify-content: flex-start;
 
       }
 
@@ -2197,8 +2388,6 @@
         aria-label="Hubungi Jaya Cleaning melalui WhatsApp"
       >
 
-        <!-- WhatsApp brand icon -->
-
         <svg
           viewBox="0 0 24 24"
           fill="currentColor"
@@ -2266,6 +2455,10 @@
         Tentang
       </a>
 
+      <a href="#faq">
+        FAQ
+      </a>
+
       <a href="#kontak">
         Kontak
       </a>
@@ -2276,6 +2469,7 @@
     <a
       href="#"
       class="mobile-wa wa-link"
+      data-service="Konsultasi"
     >
       Hubungi melalui WhatsApp
     </a>
@@ -2418,8 +2612,6 @@
         <div class="service-list">
 
 
-          <!-- SERVICE 01 -->
-
           <article class="service-item reveal">
 
             <div class="service-number">
@@ -2468,8 +2660,6 @@
 
           </article>
 
-
-          <!-- SERVICE 02 -->
 
           <article class="service-item reveal">
 
@@ -2520,8 +2710,6 @@
           </article>
 
 
-          <!-- SERVICE 03 -->
-
           <article class="service-item reveal">
 
             <div class="service-number">
@@ -2570,8 +2758,6 @@
 
           </article>
 
-
-          <!-- SERVICE 04 -->
 
           <article class="service-item reveal">
 
@@ -2865,6 +3051,316 @@
 
 
     <!-- =========================
+         FAQ
+    ========================== -->
+
+    <section
+      class="faq"
+      id="faq"
+    >
+
+      <div class="container">
+
+
+        <div class="faq-intro reveal">
+
+          <div class="eyebrow">
+            FAQ
+          </div>
+
+
+          <div>
+
+            <h2 class="serif">
+              Pertanyaan yang sering ditanyakan.
+            </h2>
+
+
+            <p class="faq-description">
+              Beberapa informasi umum mengenai layanan Jaya Cleaning Bali.
+              Jika ada pertanyaan lain mengenai kondisi barang, harga,
+              jadwal, atau area layanan, silakan hubungi kami melalui WhatsApp.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="faq-list">
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apa saja layanan yang tersedia?
+            </summary>
+
+            <div class="faq-answer">
+              Jaya Cleaning Bali melayani pembersihan sofa,
+              spring bed, jok mobil, dan karpet. Jika Anda memiliki
+              kebutuhan pembersihan lain, Anda dapat menghubungi kami
+              terlebih dahulu untuk menanyakan apakah layanan tersebut
+              dapat ditangani.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Berapa harga jasa cleaning?
+            </summary>
+
+            <div class="faq-answer">
+              Harga layanan dapat berbeda tergantung jenis barang,
+              ukuran, kondisi, tingkat kotoran, dan kebutuhan
+              pembersihannya. Harga mulai untuk masing-masing layanan
+              dapat dilihat pada bagian Layanan di website ini.
+              Untuk mendapatkan informasi yang lebih sesuai dengan
+              kebutuhan Anda, silakan konsultasikan terlebih dahulu.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah harga yang tertera sudah termasuk semua biaya?
+            </summary>
+
+            <div class="faq-answer">
+              Harga yang ditampilkan merupakan informasi harga mulai.
+              Biaya akhir dapat bergantung pada kondisi dan kebutuhan
+              pekerjaan. Untuk memastikan harga sebelum pengerjaan,
+              pelanggan dapat mengirimkan informasi atau foto barang
+              yang ingin dibersihkan melalui WhatsApp.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah bisa membersihkan sofa yang terkena noda?
+            </summary>
+
+            <div class="faq-answer">
+              Sofa dapat dibersihkan dari berbagai kotoran dan noda,
+              tetapi hasil pembersihan dapat berbeda tergantung jenis
+              noda, bahan sofa, usia noda, dan kondisi material.
+              Karena itu, hasil terhadap noda tertentu tidak selalu
+              dapat dijamin hilang sepenuhnya.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah semua jenis bahan sofa bisa dicuci?
+            </summary>
+
+            <div class="faq-answer">
+              Kondisi dan jenis material perlu diperhatikan sebelum
+              proses pembersihan. Jika Anda tidak yakin dengan bahan
+              sofa yang dimiliki, Anda dapat mengirimkan foto atau
+              informasi mengenai sofa kepada kami agar dapat
+              dikonsultasikan terlebih dahulu.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah spring bed bisa dibersihkan di tempat?
+            </summary>
+
+            <div class="faq-answer">
+              Kebutuhan pengerjaan dapat disesuaikan dengan kondisi
+              dan lokasi barang. Untuk memastikan proses pengerjaan,
+              Anda dapat menghubungi Jaya Cleaning Bali dan memberikan
+              informasi mengenai ukuran serta kondisi spring bed.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah jok mobil bisa dibersihkan dari noda dan kotoran?
+            </summary>
+
+            <div class="faq-answer">
+              Ya, pembersihan jok mobil dapat membantu mengangkat
+              debu, kotoran, dan noda akibat penggunaan sehari-hari.
+              Hasil terhadap noda tertentu bergantung pada jenis bahan,
+              usia noda, dan kondisi jok.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah karpet bisa dibersihkan dari noda?
+            </summary>
+
+            <div class="faq-answer">
+              Karpet dapat dibersihkan dari debu, kotoran, dan berbagai
+              noda. Namun, hasil pembersihan dapat berbeda tergantung
+              jenis karpet, material, usia noda, dan kondisi karpet.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah saya perlu mengirim foto barang terlebih dahulu?
+            </summary>
+
+            <div class="faq-answer">
+              Mengirimkan foto sangat membantu untuk memberikan gambaran
+              mengenai jenis barang, ukuran, material, dan kondisi
+              yang akan dibersihkan. Foto juga dapat membantu proses
+              konsultasi sebelum menentukan kebutuhan pengerjaan.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Berapa lama proses pengerjaannya?
+            </summary>
+
+            <div class="faq-answer">
+              Durasi pengerjaan dapat berbeda tergantung jenis layanan,
+              ukuran barang, jumlah barang, kondisi, dan tingkat kotoran.
+              Untuk estimasi waktu yang lebih sesuai, silakan
+              konsultasikan kebutuhan Anda melalui WhatsApp.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah barang langsung bisa digunakan setelah dibersihkan?
+            </summary>
+
+            <div class="faq-answer">
+              Waktu penggunaan kembali dapat bergantung pada jenis
+              material, metode pembersihan, kondisi lingkungan,
+              dan proses pengeringan. Sebelum digunakan kembali,
+              pastikan barang sudah berada dalam kondisi yang sesuai
+              untuk digunakan.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah Jaya Cleaning melayani area di seluruh Bali?
+            </summary>
+
+            <div class="faq-answer">
+              Jaya Cleaning Bali melayani kebutuhan cleaning di Bali.
+              Ketersediaan layanan dapat bergantung pada lokasi dan
+              jadwal pengerjaan. Silakan kirimkan lokasi Anda melalui
+              WhatsApp untuk dikonsultasikan terlebih dahulu.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah bisa datang ke rumah?
+            </summary>
+
+            <div class="faq-answer">
+              Kebutuhan pengerjaan di lokasi dapat dikonsultasikan
+              terlebih dahulu. Silakan informasikan lokasi dan jenis
+              barang yang ingin dibersihkan agar kami dapat memberikan
+              informasi mengenai ketersediaan layanan.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Bagaimana cara melakukan pemesanan?
+            </summary>
+
+            <div class="faq-answer">
+              Anda dapat menghubungi Jaya Cleaning Bali melalui
+              WhatsApp. Sampaikan jenis layanan yang dibutuhkan,
+              lokasi, serta informasi atau foto barang jika tersedia.
+              Setelah itu kebutuhan pengerjaan dapat dikonsultasikan
+              lebih lanjut.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Apakah bisa melakukan konsultasi terlebih dahulu?
+            </summary>
+
+            <div class="faq-answer">
+              Tentu. Anda dapat melakukan konsultasi terlebih dahulu
+              sebelum menentukan layanan. Konsultasi dapat digunakan
+              untuk menjelaskan jenis barang, kondisi, noda, ukuran,
+              lokasi, dan kebutuhan pembersihan.
+            </div>
+
+          </details>
+
+
+          <details class="faq-item reveal">
+
+            <summary class="faq-question">
+              Bagaimana jika saya tidak tahu jenis bahan sofa atau karpet saya?
+            </summary>
+
+            <div class="faq-answer">
+              Tidak masalah. Anda dapat mengirimkan foto barang kepada
+              Jaya Cleaning Bali melalui WhatsApp. Informasi tersebut
+              dapat digunakan sebagai bahan konsultasi awal sebelum
+              menentukan penanganan yang sesuai.
+            </div>
+
+          </details>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
          CTA
     ========================== -->
 
@@ -2994,6 +3490,11 @@
           </span>
 
 
+          <a href="#faq">
+            FAQ
+          </a>
+
+
           <a href="#kontak">
             Konsultasi
           </a>
@@ -3031,8 +3532,6 @@
     class="floating-wa wa-link"
     aria-label="Hubungi Jaya Cleaning Bali melalui WhatsApp"
   >
-
-    <!-- WhatsApp brand icon -->
 
     <svg
       viewBox="0 0 24 24"
@@ -3107,7 +3606,7 @@
       SOSIAL MEDIA
       ==========================================================
 
-      Tinggal masukkan URL akun Anda.
+      EDIT URL DI BAGIAN INI SAJA.
 
       Facebook:
       https://facebook.com/username
@@ -3118,17 +3617,29 @@
       Email:
       mailto:email@domain.com
 
-      Kalau belum ingin menampilkan salah satunya,
-      biarkan kosong.
+      Tulisan yang muncul di footer juga bisa diganti
+      dari bagian label.
+
+      Kalau salah satu ingin disembunyikan,
+      cukup kosongkan URL-nya.
     */
 
     const SOCIAL_LINKS = {
 
-      facebook: "",
+      facebook: {
+        label: "Facebook",
+        url: "https://facebook.com/username"
+      },
 
-      instagram: "",
+      instagram: {
+        label: "Instagram",
+        url: "https://instagram.com/username"
+      },
 
-      email: ""
+      email: {
+        label: "Email",
+        url: "mailto:email@jayacleaningbali.com"
+      }
 
     };
 
@@ -3143,27 +3654,11 @@
 
       CUKUP MASUKKAN URL GAMBAR DI SINI.
 
-      Contoh:
-
-      const WORK_IMAGES = [
-
-        "https://website.com/foto-1.jpg",
-
-        "https://website.com/foto-2.jpg",
-
-        "https://website.com/foto-3.jpg"
-
-      ];
-
       MAU TAMBAH FOTO?
 
-      Tinggal tambahkan:
+      Tinggal tambahkan URL baru.
 
-      "https://website.com/foto-4.jpg"
-
-      Tidak perlu membuat HTML lagi.
-
-      Slider akan otomatis membuat slide baru.
+      Slider otomatis membuat slide baru.
     */
 
 
@@ -3475,14 +3970,8 @@
        HASIL PEKERJAAN - SLIDER
        =========================================================
 
-       PENTING:
-
-       Slider TIDAK menggunakan scrollIntoView().
-
-       Jadi ketika slider berpindah otomatis,
-       hanya area slider yang bergerak horizontal.
-
-       Posisi halaman TIDAK akan ikut pindah.
+       Slider hanya menggeser area horizontal.
+       Tidak menggunakan scrollIntoView().
     */
 
 
@@ -3525,6 +4014,8 @@
     let workPaused = false;
 
     let workObserver = null;
+
+    let workInView = false;
 
 
     function renderWorkSlider() {
@@ -3643,23 +4134,16 @@
 
       currentWorkIndex = 0;
 
-      updateWorkSlider(
-        false
-      );
+      updateWorkSlider(false);
 
       setupWorkObserver();
+
+      setupWorkVisibility();
 
       startWorkAutoSlide();
 
     }
 
-
-    /*
-      Fungsi ini hanya menggeser:
-      workViewport.scrollLeft
-
-      BUKAN scroll halaman.
-    */
 
     function updateWorkSlider(
       smooth = true
@@ -3839,13 +4323,6 @@
     );
 
 
-    /*
-      IntersectionObserver hanya membaca slide
-      yang sedang terlihat.
-
-      Tidak pernah melakukan scroll halaman.
-    */
-
     function setupWorkObserver() {
 
       if (!workSlides.length) {
@@ -3964,6 +4441,41 @@
     }
 
 
+    /*
+      Auto-slider hanya berjalan ketika
+      bagian Hasil Pekerjaan sedang terlihat.
+
+      Jadi saat user masih berada di bagian atas
+      halaman, slider tidak bergerak sendiri.
+    */
+
+    function setupWorkVisibility() {
+
+      const workSection =
+        document.getElementById("hasil");
+
+
+      const visibilityObserver =
+        new IntersectionObserver(
+          (entries) => {
+
+            workInView =
+              entries[0].isIntersecting;
+
+          },
+          {
+            threshold: 0.15
+          }
+        );
+
+
+      visibilityObserver.observe(
+        workSection
+      );
+
+    }
+
+
     /* =========================================================
        AUTO SLIDE
        ========================================================= */
@@ -3993,7 +4505,10 @@
         setInterval(
           () => {
 
-            if (!workPaused) {
+            if (
+              !workPaused &&
+              workInView
+            ) {
 
               nextWorkSlide();
 
@@ -4028,10 +4543,6 @@
     }
 
 
-    /*
-      Pause ketika mouse berada di slider.
-    */
-
     workViewport.addEventListener(
       "mouseenter",
       () => {
@@ -4051,10 +4562,6 @@
       }
     );
 
-
-    /*
-      Pause ketika disentuh di HP.
-    */
 
     workViewport.addEventListener(
       "touchstart",
@@ -4098,10 +4605,6 @@
       );
 
 
-    /*
-      Icon Facebook
-    */
-
     const socialIcons = {
 
       facebook: `
@@ -4118,10 +4621,6 @@
 
       `,
 
-
-      /*
-        Icon Instagram
-      */
 
       instagram: `
 
@@ -4160,10 +4659,6 @@
       `,
 
 
-      /*
-        Icon Email
-      */
-
       email: `
 
         <svg
@@ -4191,21 +4686,42 @@
     };
 
 
-    const socialLabels = {
+    /*
+      SOCIAL MEDIA DIBUAT OTOMATIS DARI KONFIGURASI.
 
-      facebook: "Facebook",
+      Contoh:
 
-      instagram: "Instagram",
+      Facebook
+      Instagram
+      Email
 
-      email: "Email"
-
-    };
+      Tinggal ubah URL pada SOCIAL_LINKS di atas.
+    */
 
 
     Object.entries(
       SOCIAL_LINKS
     ).forEach(
-      ([platform, url]) => {
+      ([platform, socialData]) => {
+
+        if (
+          !socialData ||
+          typeof socialData !== "object"
+        ) {
+
+          return;
+
+        }
+
+
+        const url =
+          socialData.url;
+
+
+        const label =
+          socialData.label ||
+          platform;
+
 
         if (
           typeof url !== "string" ||
@@ -4231,8 +4747,7 @@
 
         link.setAttribute(
           "aria-label",
-          socialLabels[platform] ||
-          platform
+          label
         );
 
 
@@ -4248,9 +4763,15 @@
         }
 
 
-        link.innerHTML =
-          socialIcons[platform] ||
-          "";
+        link.innerHTML = `
+
+          ${socialIcons[platform] || ""}
+
+          <span>
+            ${label}
+          </span>
+
+        `;
 
 
         footerSocial.appendChild(
